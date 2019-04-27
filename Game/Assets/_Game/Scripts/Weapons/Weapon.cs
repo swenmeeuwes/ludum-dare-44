@@ -11,6 +11,7 @@ public abstract class Weapon : MonoBehaviour // todo: ChargeableWeapon?
   [SerializeField] protected Sprite _idleStage;
   [SerializeField] protected Sprite[] _chargeStages;
   [SerializeField] protected SpriteRenderer _renderer;
+  [SerializeField] protected ParticleSystem _criticalHitParticleSystem;
 
   public bool IsCharging { get; private set; }
 
@@ -20,6 +21,7 @@ public abstract class Weapon : MonoBehaviour // todo: ChargeableWeapon?
 
   protected Vector2 Direction { get => transform.rotation * Vector2.right; }
   protected float ChargedFirePower { get => Mathf.Clamp01(ChargeTimeSinceChargeStart / _timeInSecondsForFullCharge) * _firePower; }
+  protected bool WillCrit { get => Mathf.Clamp01(ChargeTimeSinceChargeStart / _timeInSecondsForFullCharge) == 1; }
 
   protected virtual void Update() {
     LookAtMouse();
@@ -28,6 +30,10 @@ public abstract class Weapon : MonoBehaviour // todo: ChargeableWeapon?
   public virtual void Fire() {
     _renderer.sprite = _idleStage;
     IsCharging = false;
+
+    if (WillCrit) {
+      _criticalHitParticleSystem.Play();
+    }
   }
 
   public void Charge() {

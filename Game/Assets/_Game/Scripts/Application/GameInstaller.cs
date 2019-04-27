@@ -3,6 +3,7 @@ using Zenject;
 
 public class GameInstaller : MonoInstaller {
   [SerializeField] private WeaponContext _weaponContext;
+  [SerializeField] private EnemyContext _enemyContext;
 
   private PrefabContext _prefabContext;
 
@@ -16,7 +17,10 @@ public class GameInstaller : MonoInstaller {
     Container.BindInterfacesAndSelfTo<WeaponFactory>().AsSingle();
     Container.BindInterfacesAndSelfTo<GameController>().AsSingle().NonLazy();
 
-    Container.Bind<Arrow>().FromInstance(_prefabContext.arrow).AsTransient();
-    Container.BindInterfacesAndSelfTo<ProjectileFactory<Arrow>>().AsSingle().NonLazy();
+    Container.Bind<Arrow>().FromInstance(_prefabContext.Arrow).AsTransient();
+    Container.BindInterfacesAndSelfTo<ProjectileFactory<Arrow>>().AsSingle();
+
+    Container.Bind<EnemyContext>().FromInstance(_enemyContext).AsSingle();
+    Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle();
   }
 }

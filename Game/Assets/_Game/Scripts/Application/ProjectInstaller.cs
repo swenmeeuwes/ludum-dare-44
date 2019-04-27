@@ -15,7 +15,7 @@ public class ProjectInstaller : MonoInstaller {
 
   private void InstallBindings(DiContainer container) {
     container.Bind<PrefabContext>().FromInstance(_prefabContext).AsSingle();
-    container.Bind<ScreenRoot>().FromComponentInNewPrefab(_prefabContext.screenRoot).AsSingle();
+    container.Bind<ScreenRoot>().FromComponentInNewPrefab(_prefabContext.ScreenRoot).AsSingle();
     container.BindInterfacesAndSelfTo<ScreenFactory>().AsSingle().WithArguments(_screenContext.config);
     container.BindInterfacesAndSelfTo<ScreenNavigator>().AsSingle();
     container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();

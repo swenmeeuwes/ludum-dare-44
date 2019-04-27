@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
   [SerializeField] private float _maxMovementSpeed = 5f;
 
   [SerializeField] private CollisionCheck _groundCheck;
+  [SerializeField] private ParticleSystem _jumpParticleSystem;
 
   private Rigidbody2D _rigidbody;
   private SpriteRenderer _renderer;
@@ -57,6 +58,8 @@ public class PlayerMovement : MonoBehaviour {
       if (_groundCheck.IsColliding && Input.GetButton(InputAxes.Jump)) {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
         //_rigidbody.AddForce(Vector2.up * _jumpForce);
+
+        _jumpParticleSystem.Play();
       }
 
       // Make the jumping nicer
