@@ -54,11 +54,12 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
 
     // Clean up previous
     foreach (var shopItemView in _shopItemViews) {
-      Destroy(shopItemView);
+      GameObject.Destroy(shopItemView.gameObject);
     }
+    _shopItemViews.Clear();
 
     // Fetch random items
-    var shopItems = _availableShopItems;
+    var shopItems = _availableShopItems.ToList();
     var fetchAmount = shopItems.Count < amount ? shopItems.Count : amount;
     var randomItems = new List<ShopItem>();
     for (var i = 0; i < fetchAmount; i++) {
