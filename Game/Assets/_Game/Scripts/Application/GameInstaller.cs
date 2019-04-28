@@ -42,6 +42,13 @@ public class GameInstaller : MonoInstaller {
     Container.DeclareSignal<StartLevelSignal>().OptionalSubscriber();
     Container.DeclareSignal<LevelFinishedSignal>().OptionalSubscriber();
 
+    // Health view
+    Container.Bind<HeartView>().FromInstance(_prefabContext.HeartView).AsTransient();
+
+    Container.DeclareSignal<PlayerMaxHealthChangedSignal>().OptionalSubscriber();
+    Container.DeclareSignal<PlayerHealthChangedSignal>().OptionalSubscriber();
+
+    // Execution Order
     Container.BindExecutionOrder<LevelController>(5); // Before GameController
     Container.BindExecutionOrder<GameController>(10);
   }

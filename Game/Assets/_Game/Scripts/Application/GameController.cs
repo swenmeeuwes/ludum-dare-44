@@ -8,6 +8,7 @@ public class GameController : IInitializable {
   private Player _player;
   private WeaponFactory _weaponFactory;
   private LevelController _levelController;
+  private HealthView _healthView;
 
   private GameState _state;
   public GameState State {
@@ -19,22 +20,23 @@ public class GameController : IInitializable {
   }
 
   [Inject]
-  private void Construct(SignalBus signalBus, Player player, WeaponFactory weaponFactory, LevelController levelController) {
+  private void Construct(SignalBus signalBus, Player player, WeaponFactory weaponFactory, LevelController levelController, HealthView healthView) {
     _signalBus = signalBus;
     _player = player;
     _weaponFactory = weaponFactory;
     _levelController = levelController;
+    _healthView = healthView;
   }
 
   public void Initialize() {
+    _player.CanMove = false;
     _player.Weapon = _weaponFactory.Create<Bow>();
 
     State = GameState.Intro;
   }
 
   private void PlayIntro() {
-    // quick hack
-    var introductionController = GameObject.FindObjectOfType<IntroductionController>();
+    var introductionController = GameObject.FindObjectOfType<IntroductionController>(); // quick hack
     if (introductionController != null) {
       introductionController
         .PlayIntro()
@@ -52,9 +54,10 @@ public class GameController : IInitializable {
         PlayIntro();
         break;
       case GameState.Playing:
-        
+        _player.CanMove = true;
         break;
       case GameState.Paused:
+        _player.CanMove = false;
         break;
       default:
         break;

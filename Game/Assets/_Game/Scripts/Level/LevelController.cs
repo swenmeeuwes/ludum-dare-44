@@ -6,6 +6,8 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   private SignalBus _signalBus;
   private LevelContext _levelContext;
   private LevelInterpreter _levelInterpreter;
+  private CurtainController _curtainController;
+  private Player _player;
 
   public bool IsRunning { get; private set; }
 
@@ -25,10 +27,12 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   }
 
   [Inject]
-  private void Construct(SignalBus signalBus, LevelContext levelContext, LevelInterpreter levelInterpreter) {
+  private void Construct(SignalBus signalBus, LevelContext levelContext, LevelInterpreter levelInterpreter, CurtainController curtainController, Player player) {
     _signalBus = signalBus;
     _levelContext = levelContext;
     _levelInterpreter = levelInterpreter;
+    _curtainController = curtainController;
+    _player = player;
   }
 
   public void Initialize() {
@@ -64,10 +68,16 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   private void OnLevelFinishedSignal(LevelFinishedSignal signal) {
     IsRunning = false;
 
-    Debug.Log("Level finsihed!");
+    _player.CanMove = false;
 
-    // Start next?
-    // CurrentLevelIndex + 1
+    _curtainController
+      .ShowEnteringRoundText(string.Format("Round {0}", CurrentLevelIndex + 2)) // +2 because CurrentLevelIndex is 0 index based + we want the next
+      .Then(() => {
+        _signalBus.Fire(new StartLevelSignal { LevelIndex = CurrentLevelIndex + 1 });
+
+        _player.CanMove = true;
+      })
+      .Catch(ex => Debug.LogError(ex));
   }
 
   private void StartLevel(int levelIndex) {

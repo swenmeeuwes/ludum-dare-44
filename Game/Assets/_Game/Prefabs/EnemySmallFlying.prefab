@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3451519860219228833}
   - component: {fileID: 7151057267332225678}
   - component: {fileID: 2723376798156852518}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemySmallFlying
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 5
+  _initialDamage: 1
   MaxSpeed: 2
 --- !u!58 &2723376798156852518
 CircleCollider2D:

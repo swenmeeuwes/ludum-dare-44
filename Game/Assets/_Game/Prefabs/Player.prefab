@@ -4831,7 +4831,7 @@ GameObject:
   - component: {fileID: 3596014103171587174}
   - component: {fileID: 3596014103171587173}
   - component: {fileID: 2076963277374443051}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: CollisionCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5148,3 +5148,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338c669baf1c79445a686281ae510d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialMaxHealth: 10
+  _secondsInvulnerableAfterHit: 0.65

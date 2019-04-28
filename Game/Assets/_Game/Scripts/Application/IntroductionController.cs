@@ -23,6 +23,7 @@ public class IntroductionController : MonoBehaviour
 
     // For testing
     FinishSequence(promise);
+    promise.Then(() => { _curtainAnimator.speed = 1; }); // reset speed
 
     return promise;
   }
@@ -45,11 +46,15 @@ public class IntroductionController : MonoBehaviour
 
     _curtainAnimator.SetTrigger("Open");
 
+    yield return new WaitForSeconds(1.5f);
+
     promise.Resolve();
   }
 
   private void FinishSequence(Promise promise) {
     _introductionCanvas.DOFade(0, 0);
+
+    _curtainAnimator.speed = 10f;
     _curtainAnimator.SetTrigger("Open");
 
     promise.Resolve();

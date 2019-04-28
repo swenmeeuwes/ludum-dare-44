@@ -6,6 +6,7 @@ using Zenject;
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
 public abstract class Enemy : MonoBehaviour {
   [SerializeField] protected float MovementSpeed;
+  [SerializeField] private int _initialDamage;
 
   protected Collider2D Collider;
   protected Rigidbody2D Rigidbody;
@@ -21,6 +22,8 @@ public abstract class Enemy : MonoBehaviour {
       }
     }
   }
+
+  public int Damage { get => _initialDamage; }
 
   private SignalBus _signalBus;
 

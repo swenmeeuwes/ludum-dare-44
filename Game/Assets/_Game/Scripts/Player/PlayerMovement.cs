@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour {
   private SpriteRenderer _renderer;
   private Animator _animator;
 
+  public bool CanMove { get; set; }
+  public bool QueueStopMoving { get; set; }
+
   private bool _queueJump;
 
   private void Start() {
@@ -26,18 +29,31 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   private void Update() {
+    // Update the animator
+    _animator.SetFloat("Speed", Mathf.Abs(_rigidbody.velocity.x));
+    _animator.SetBool("IsGrounded", _groundCheck.IsColliding);
+
+    if (!CanMove) {
+      return;
+    }
+
     var input = new Vector2(Input.GetAxis(InputAxes.Horizontal), Input.GetAxis(InputAxes.Vertical));
 
     if (Input.GetButton(InputAxes.Jump)) {
       _queueJump = true;
     }
 
-    // Update the animator
-    _animator.SetFloat("Speed", Mathf.Abs(_rigidbody.velocity.x));
-    _animator.SetBool("IsGrounded", _groundCheck.IsColliding);
+    if (QueueStopMoving && _groundCheck.IsColliding) {
+      QueueStopMoving = false;
+      CanMove = false;
+    }
   }
 
   private void FixedUpdate() {
+    if (!CanMove) {
+      return;
+    }
+
     var input = new Vector2(Input.GetAxis(InputAxes.Horizontal), Input.GetAxis(InputAxes.Vertical));
 
     //if (input.x * _rigidbody.velocity.x < _maxMovementSpeed) {

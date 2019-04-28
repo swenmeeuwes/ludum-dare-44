@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7043ed2841c5c6a499466008bcbd6e18, type: 3}
-  m_Name: Survive Level 1
+  m_Name: Survive Level (Very easy)
   m_EditorClassIdentifier: 
   Enemies:
   - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
-    Amount: 5
-    SpawnCooldownAfterSpawnedInSeconds: 5
+    Amount: 3
+    SpawnCooldownAfterSpawnedInSeconds: 1
