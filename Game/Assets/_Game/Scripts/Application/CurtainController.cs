@@ -9,10 +9,44 @@ public class CurtainController : MonoBehaviour {
   [SerializeField] private Animator _curtainAnimator;
   [SerializeField] private TMP_Text _text;
   [SerializeField] private CanvasGroup _curtainCanvas;
+  [SerializeField] private CanvasGroup _gameOverView;
 
   private void Awake() {
     _curtainCanvas.DOFade(0, 0);
     _text.DOFade(0, 0);
+
+    _gameOverView.gameObject.SetActive(false);
+  }
+
+  public IPromise ShowGameOver(string gameOverText) {
+    var promise = new Promise();
+
+    StartCoroutine(ShowGameOverSequence(promise));
+
+    return promise;
+  }
+
+  private IEnumerator ShowGameOverSequence(Promise promise) {
+    _curtainCanvas.DOFade(0, 0);
+    _text.DOFade(0, 0);
+    _gameOverView.DOFade(0, 0);
+
+    yield return new WaitForSeconds(.65f);
+
+    _curtainAnimator.SetTrigger("Close");
+
+    yield return new WaitForSeconds(1f);
+
+    _curtainCanvas.DOFade(1, .35f);
+
+    yield return new WaitForSeconds(.35f);
+
+    _gameOverView.gameObject.SetActive(true);
+    _gameOverView.DOFade(1f, .45f);
+
+    yield return new WaitForSeconds(1.65f);
+
+    promise.Resolve();
   }
 
   public IPromise ShowShop(string shoppingText) {

@@ -59,7 +59,7 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
     _shopItemViews.Clear();
 
     // Fetch random items
-    var shopItems = _availableShopItems.ToList();
+    var shopItems = _availableShopItems.ToList(); // ToList -> to clone the list (since we don't want to remove the shop items from available shop item list)
     var fetchAmount = shopItems.Count < amount ? shopItems.Count : amount;
     var randomItems = new List<ShopItem>();
     for (var i = 0; i < fetchAmount; i++) {

@@ -9,6 +9,7 @@ public class GameController : IInitializable, IDisposable {
   private Player _player;
   private WeaponFactory _weaponFactory;
   private LevelController _levelController;
+  private CurtainController _curtainController;
 
   private GameState _state;
   public GameState State {
@@ -20,11 +21,12 @@ public class GameController : IInitializable, IDisposable {
   }
 
   [Inject]
-  private void Construct(SignalBus signalBus, Player player, WeaponFactory weaponFactory, LevelController levelController) {
+  private void Construct(SignalBus signalBus, Player player, WeaponFactory weaponFactory, LevelController levelController, CurtainController curtainController) {
     _signalBus = signalBus;
     _player = player;
     _weaponFactory = weaponFactory;
     _levelController = levelController;
+    _curtainController = curtainController;
   }
 
   public void Initialize() {
@@ -42,14 +44,22 @@ public class GameController : IInitializable, IDisposable {
 
   private void AddSubscriptions() {
     _signalBus.Subscribe<ShopItemBoughtSignal>(OnShopItemBought);
+    _signalBus.Subscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
   }
 
   private void TryRemoveSubscription() {
     _signalBus.TryUnsubscribe<ShopItemBoughtSignal>(OnShopItemBought);
+    _signalBus.TryUnsubscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
   }
 
   private void OnShopItemBought(ShopItemBoughtSignal signal) {
     _player.Health -= signal.Cost;
+  }
+
+  private void OnPlayerHealthChangedSignal(PlayerHealthChangedSignal signal) {
+    if (signal.NewHealth <= 0) {
+      State = GameState.GameOver;
+    }
   }
 
   private void PlayIntro() {
@@ -65,7 +75,7 @@ public class GameController : IInitializable, IDisposable {
     }
   }
 
-  private void OnGameStateChanged(GameState oldSate, GameState newState) {
+  private void OnGameStateChanged(GameState oldState, GameState newState) {
     switch (newState) {
       case GameState.Intro:
         PlayIntro();
@@ -76,6 +86,13 @@ public class GameController : IInitializable, IDisposable {
       case GameState.Paused:
         _player.CanMove = false;
         break;
+      case GameState.GameOver:
+        _player.CanMove = false;
+
+        if (oldState != GameState.GameOver) {
+          _curtainController.ShowGameOver("Game Over");
+        }
+        break;
       default:
         break;
     }
@@ -84,6 +101,7 @@ public class GameController : IInitializable, IDisposable {
   public enum GameState {
     Intro,
     Playing,
-    Paused
+    Paused,
+    GameOver
   }
 }

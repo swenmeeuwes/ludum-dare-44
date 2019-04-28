@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
-    Amount: 10
+    Amount: 1
     SpawnCooldownAfterSpawnedInSeconds: 5
