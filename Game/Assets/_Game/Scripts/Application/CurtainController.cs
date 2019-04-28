@@ -15,6 +15,60 @@ public class CurtainController : MonoBehaviour {
     _text.DOFade(0, 0);
   }
 
+  public IPromise ShowShop(string shoppingText) {
+    var promise = new Promise();
+
+    StartCoroutine(ShowShopSequence(promise, shoppingText));
+
+    return promise;
+  }
+
+  private IEnumerator ShowShopSequence(Promise promise, string shoppingText) {
+    _curtainCanvas.DOFade(0, 0);
+    _text.DOFade(0, 0);
+
+    yield return new WaitForSeconds(.65f);
+
+    _curtainAnimator.SetTrigger("Close");
+
+    yield return new WaitForSeconds(1f);
+
+    _curtainCanvas.DOFade(1, .35f);
+
+    yield return new WaitForSeconds(.35f);
+
+    _text.text = shoppingText;
+    _text.DOFade(1, .45f);
+
+    yield return new WaitForSeconds(1.65f);
+
+    _text.DOFade(0, .35f);
+
+    yield return new WaitForSeconds(.5f);
+
+    promise.Resolve();
+  }
+
+  public IPromise HideShop() {
+    var promise = new Promise();
+
+    StartCoroutine(HideShopSequence(promise));
+
+    return promise;
+  }
+
+  private IEnumerator HideShopSequence(Promise promise) {
+    _curtainCanvas.DOFade(0, .45f);
+
+    yield return new WaitForSeconds(.5f);
+
+    _curtainAnimator.SetTrigger("Open");
+
+    yield return new WaitForSeconds(1f);
+
+    promise.Resolve();
+  }
+
   public IPromise ShowEnteringRoundText(string roundText) {
     var promise = new Promise();
 

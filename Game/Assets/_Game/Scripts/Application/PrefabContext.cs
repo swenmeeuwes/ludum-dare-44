@@ -7,4 +7,5 @@ public class PrefabContext : ScriptableObject
   public Arrow Arrow;
   public FlyingEnemySpawnPoints FlyingEnemySpawnPoints;
   public HeartView HeartView;
+  public ShopItemView ShopItemView;
 }

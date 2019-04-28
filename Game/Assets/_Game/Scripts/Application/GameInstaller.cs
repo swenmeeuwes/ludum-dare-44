@@ -5,6 +5,7 @@ public class GameInstaller : MonoInstaller {
   [SerializeField] private WeaponContext _weaponContext;
   [SerializeField] private EnemyContext _enemyContext;
   [SerializeField] private LevelContext _levelContext;
+  [SerializeField] private ShopItemContext _shopItemContext;
 
   private PrefabContext _prefabContext;
 
@@ -15,7 +16,7 @@ public class GameInstaller : MonoInstaller {
 
   public override void InstallBindings() {
     Container.BindInterfacesAndSelfTo<GameController>().AsSingle().NonLazy();
-
+    
     // Weapons
     Container.Bind<WeaponContext>().FromInstance(_weaponContext).AsSingle();
     Container.BindInterfacesAndSelfTo<WeaponFactory>().AsSingle();
@@ -47,6 +48,13 @@ public class GameInstaller : MonoInstaller {
 
     Container.DeclareSignal<PlayerMaxHealthChangedSignal>().OptionalSubscriber();
     Container.DeclareSignal<PlayerHealthChangedSignal>().OptionalSubscriber();
+
+    // Shop
+    Container.Bind<ShopItemContext>().FromInstance(_shopItemContext).AsSingle();
+    Container.Bind<ShopItemView>().FromComponentInNewPrefab(_prefabContext.ShopItemView).AsTransient();
+
+    Container.DeclareSignal<ShopItemBoughtSignal>().OptionalSubscriber();
+    Container.DeclareSignal<ShopClosedSignal>().OptionalSubscriber();
 
     // Execution Order
     Container.BindExecutionOrder<LevelController>(5); // Before GameController

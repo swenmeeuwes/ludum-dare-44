@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,39 +6,27 @@ using Zenject;
 using DG.Tweening;
 
 [RequireComponent(typeof(HorizontalLayoutGroup))]
-public class HealthView : MonoBehaviour, IInitializable, IDisposable
+public class HealthView : MonoBehaviour
 {
-  private HorizontalLayoutGroup _layoutGroup;
+  protected HeartView HeartViewPrefab;
 
-  private SignalBus _signalBus;
-  private HeartView _heartViewPrefab;
+  protected HorizontalLayoutGroup LayoutGroup;
 
-  private readonly List<HeartView> _heartViews = new List<HeartView>();
+  protected readonly List<HeartView> HeartViews = new List<HeartView>();
 
   [Inject]
-  private void Construct(SignalBus signalBus, HeartView heartView) {
-    _signalBus = signalBus;
-    _heartViewPrefab = heartView;
+  private void Construct(HeartView heartView) {
+    HeartViewPrefab = heartView;
   }
 
   private void Awake() {
-    _layoutGroup = GetComponent<HorizontalLayoutGroup>();
-  }
-
-  public void Initialize() {
-    _signalBus.Subscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
-    _signalBus.Subscribe<PlayerMaxHealthChangedSignal>(OnPlayerMaxHealthChangedSignal);
-  }
-
-  public void Dispose() {
-    _signalBus.TryUnsubscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
-    _signalBus.TryUnsubscribe<PlayerMaxHealthChangedSignal>(OnPlayerMaxHealthChangedSignal);
+    LayoutGroup = GetComponent<HorizontalLayoutGroup>();
   }
 
   public void ShowHealth(int amount) {
-    var healthPerHeart = _heartViewPrefab.HealthPointsAbleToShow;
+    var healthPerHeart = HeartViewPrefab.HealthPointsAbleToShow;
     var healthToShowLeft = amount;
-    foreach (var heartView in _heartViews) {
+    foreach (var heartView in HeartViews) {
       if (healthToShowLeft <= 0) {
         heartView.State = 0;
         continue;
@@ -52,8 +39,12 @@ public class HealthView : MonoBehaviour, IInitializable, IDisposable
     }
   }
 
+  public void EnsureEnoughHeartsFor(int health) {
+    ShowAmountOfHearts(Mathf.CeilToInt((float)health / HeartViewPrefab.HealthPointsAbleToShow));
+  }
+
   public void ShowAmountOfHearts(int maxHearts) {
-    var heartsToAdd = maxHearts - _heartViews.Count;
+    var heartsToAdd = maxHearts - HeartViews.Count;
     if (heartsToAdd > 0) {
       AddHearts(heartsToAdd);
     } else if (heartsToAdd < 0) {
@@ -63,26 +54,18 @@ public class HealthView : MonoBehaviour, IInitializable, IDisposable
 
   private void AddHearts(int amount) {
     for (int i = 0; i < amount; i++) {
-      var heartView = GameObject.Instantiate(_heartViewPrefab);
-      heartView.transform.SetParent(_layoutGroup.transform, false);
+      var heartView = GameObject.Instantiate(HeartViewPrefab);
+      heartView.transform.SetParent(LayoutGroup.transform, false);
 
       DOTween.Sequence()
         .PrependInterval(i * .15f)
         .Append(heartView.transform.DOPunchScale(Vector3.one, .15f));
 
-      _heartViews.Add(heartView);
+      HeartViews.Add(heartView);
     }
   }
 
   private void RemoveHearts(int amount) {
     throw new NotImplementedException();
-  }
-
-  private void OnPlayerHealthChangedSignal(PlayerHealthChangedSignal signal) {
-    ShowHealth(signal.NewHealth);
-  }
-
-  private void OnPlayerMaxHealthChangedSignal(PlayerMaxHealthChangedSignal signal) {
-    ShowAmountOfHearts(Mathf.CeilToInt((float)signal.NewMaxHealth / _heartViewPrefab.HealthPointsAbleToShow));
   }
 }

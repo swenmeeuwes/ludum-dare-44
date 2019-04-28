@@ -8,6 +8,7 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   private LevelInterpreter _levelInterpreter;
   private CurtainController _curtainController;
   private Player _player;
+  private Shop _shop;
 
   public bool IsRunning { get; private set; }
 
@@ -27,12 +28,13 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   }
 
   [Inject]
-  private void Construct(SignalBus signalBus, LevelContext levelContext, LevelInterpreter levelInterpreter, CurtainController curtainController, Player player) {
+  private void Construct(SignalBus signalBus, LevelContext levelContext, LevelInterpreter levelInterpreter, CurtainController curtainController, Player player, Shop shop) {
     _signalBus = signalBus;
     _levelContext = levelContext;
     _levelInterpreter = levelInterpreter;
     _curtainController = curtainController;
     _player = player;
+    _shop = shop;
   }
 
   public void Initialize() {
@@ -54,11 +56,13 @@ public class LevelController : IInitializable, IDisposable, ITickable {
   private void AddSubscriptions() {
     _signalBus.Subscribe<StartLevelSignal>(OnStartLevelSignal);
     _signalBus.Subscribe<LevelFinishedSignal>(OnLevelFinishedSignal);
+    _signalBus.Subscribe<ShopClosedSignal>(OnShopClosedSignal);
   }
 
   private void TryRemoveSubscriptions() {
     _signalBus.TryUnsubscribe<StartLevelSignal>(OnStartLevelSignal);
     _signalBus.TryUnsubscribe<LevelFinishedSignal>(OnLevelFinishedSignal);
+    _signalBus.TryUnsubscribe<ShopClosedSignal>(OnShopClosedSignal);
   }
 
   private void OnStartLevelSignal(StartLevelSignal signal) {
@@ -70,14 +74,23 @@ public class LevelController : IInitializable, IDisposable, ITickable {
 
     _player.CanMove = false;
 
-    _curtainController
-      .ShowEnteringRoundText(string.Format("Round {0}", CurrentLevelIndex + 2)) // +2 because CurrentLevelIndex is 0 index based + we want the next
-      .Then(() => {
-        _signalBus.Fire(new StartLevelSignal { LevelIndex = CurrentLevelIndex + 1 });
+    //var showShop = UnityEngine.Random.Range(0, 1) == 1;
+    var showShop = true;
+    if (showShop) {
+      _curtainController
+        .ShowShop("Shop Time!")
+        .Then(() => {
+          _shop.ShowRandomItems();
+        })
+        .Catch(ex => Debug.LogError(ex));
+    }
+    else {
+      PlayNextLevel();
+    }
+  }
 
-        _player.CanMove = true;
-      })
-      .Catch(ex => Debug.LogError(ex));
+  private void OnShopClosedSignal(ShopClosedSignal signal) {
+    PlayNextLevel();
   }
 
   private void StartLevel(int levelIndex) {
@@ -92,5 +105,17 @@ public class LevelController : IInitializable, IDisposable, ITickable {
     levelHandler.Setup(CurrentLevel);
 
     IsRunning = true;
+  }
+
+  private void PlayNextLevel() {
+    // Continue playing the next level
+    _curtainController
+      .ShowEnteringRoundText(string.Format("Round {0}", CurrentLevelIndex + 2)) // +2 because CurrentLevelIndex is 0 index based + we want the next
+      .Then(() => {
+        _signalBus.Fire(new StartLevelSignal { LevelIndex = CurrentLevelIndex + 1 });
+
+        _player.CanMove = true;
+      })
+      .Catch(ex => Debug.LogError(ex));
   }
 }

@@ -17,3 +17,7 @@ MonoBehaviour:
   Arrow: {fileID: 6815034188244783548, guid: 4ba2bc75174e87a4998ef9cdee0dfb5e, type: 3}
   FlyingEnemySpawnPoints: {fileID: 928033913940025291, guid: a433391678b5ab548b430781094604b3,
     type: 3}
+  HeartView: {fileID: 3216251242675610818, guid: 3be51e023e498db4b80beba6a1a69fcb,
+    type: 3}
+  ShopItemView: {fileID: 6592801296115129569, guid: 534784eb52064d0459ccb4b15d27d90e,
+    type: 3}
