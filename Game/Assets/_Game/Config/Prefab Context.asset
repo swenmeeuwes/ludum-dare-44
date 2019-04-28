@@ -15,5 +15,5 @@ MonoBehaviour:
   ScreenRoot: {fileID: 8700180114603043410, guid: 3d992645fd5c689479a20b231833828a,
     type: 3}
   Arrow: {fileID: 6815034188244783548, guid: 4ba2bc75174e87a4998ef9cdee0dfb5e, type: 3}
-  SpawnPoints: {fileID: 5461813793857741294, guid: d5dddc43f9290f24e9035793dcf9d14a,
+  FlyingEnemySpawnPoints: {fileID: 928033913940025291, guid: a433391678b5ab548b430781094604b3,
     type: 3}

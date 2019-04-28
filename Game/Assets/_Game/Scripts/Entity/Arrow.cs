@@ -36,8 +36,13 @@ public class Arrow : MonoBehaviour, IProjectile
   private void OnTriggerEnter2D(Collider2D collision) {
     _collider.enabled = false;
 
-    _rigidbody.bodyType = RigidbodyType2D.Static;
+    _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+    _rigidbody.velocity = Vector2.zero;
+    _rigidbody.Sleep();
     transform.DOShakeRotation(0.3f, new Vector3(0, 0, 35), 8);
+
+    // Stick to object
+    transform.SetParent(collision.transform, true);
   }
 
   private void UpdateRotation() {

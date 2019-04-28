@@ -5,5 +5,5 @@ public class PrefabContext : ScriptableObject
 {
   public ScreenRoot ScreenRoot;
   public Arrow Arrow;
-  public SpawnPoints SpawnPoints;
+  public FlyingEnemySpawnPoints FlyingEnemySpawnPoints;
 }

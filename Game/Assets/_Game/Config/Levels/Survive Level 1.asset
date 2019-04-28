@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899d2fd3f6285404dbc2097893f5ebf4, type: 3}
-  m_Name: Enemy Context
+  m_Script: {fileID: 11500000, guid: 7043ed2841c5c6a499466008bcbd6e18, type: 3}
+  m_Name: Survive Level 1
   m_EditorClassIdentifier: 
   Enemies:
-  - {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
+  - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
+    Amount: 5
+    SpawnCooldownAfterSpawnedInSeconds: 5
