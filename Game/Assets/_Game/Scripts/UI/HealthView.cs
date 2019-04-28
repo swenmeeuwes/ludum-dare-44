@@ -23,6 +23,14 @@ public class HealthView : MonoBehaviour
     LayoutGroup = GetComponent<HorizontalLayoutGroup>();
   }
 
+  public void ShowDamageTaken() {
+    foreach (var heartView in HeartViews) {
+      if (heartView.State > 0) {
+        heartView.transform.DOPunchScale(Vector3.one, .05f);
+      }
+    }
+  }
+
   public void ShowHealth(int amount) {
     var healthPerHeart = HeartViewPrefab.HealthPointsAbleToShow;
     var healthToShowLeft = amount;
@@ -34,8 +42,6 @@ public class HealthView : MonoBehaviour
 
       heartView.State = Mathf.Clamp(healthToShowLeft, 0, healthPerHeart);
       healthToShowLeft -= healthPerHeart;
-
-      heartView.transform.DOPunchScale(Vector3.one, .05f);
     }
   }
 

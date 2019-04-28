@@ -18,6 +18,9 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   private Player _player;
 
   private readonly List<ShopItemView> _shopItemViews = new List<ShopItemView>();
+  private readonly List<ShopItem> _boughtShopItems = new List<ShopItem>();
+
+  private List<ShopItem> _availableShopItems;
 
   [Inject]
   private void Construct(DiContainer container, SignalBus signalBus, ShopItemContext shopItemContext, ShopItemView shopItemView, Player player) {
@@ -33,6 +36,8 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   }
 
   public void Initialize() {
+    _availableShopItems = _shopItemContext.Config.ToList();
+
     _signalBus.Subscribe<ShopItemBoughtSignal>(OnShopItemBought);
   }
 
@@ -53,13 +58,13 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
     }
 
     // Fetch random items
-    var fetchAmount = _shopItemContext.Config.Length < amount ? _shopItemContext.Config.Length : amount;
+    var shopItems = _availableShopItems;
+    var fetchAmount = shopItems.Count < amount ? shopItems.Count : amount;
     var randomItems = new List<ShopItem>();
-    var availableShopItems = _shopItemContext.Config.ToList();
     for (var i = 0; i < fetchAmount; i++) {
-      var randomItem = availableShopItems[UnityEngine.Random.Range(0, availableShopItems.Count)];
+      var randomItem = shopItems[UnityEngine.Random.Range(0, shopItems.Count)];
 
-      availableShopItems.Remove(randomItem);
+      shopItems.Remove(randomItem);
       randomItems.Add(randomItem);
     }
 
@@ -85,6 +90,33 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   private void OnShopItemBought(ShopItemBoughtSignal signal) {
     foreach (var shopItemView in _shopItemViews) {
       shopItemView.CanBuy = _player.Health > shopItemView.ShopItem.Cost; // Don't allow buying when player doesn't have enough health
+    }
+
+    var boughtItem = signal.ShopItem;
+    _boughtShopItems.Add(boughtItem);
+    if (boughtItem.OnlyAvailableOnce) {
+      _availableShopItems.Remove(boughtItem);
+    }
+
+    ProcessBoughtShopItem(boughtItem);
+  }
+
+  private void ProcessBoughtShopItem(ShopItem shopItem) {
+    // Breaking the SOLID L ;c
+    if (shopItem is ScoreItem) {
+      // todo: add score
+      return;
+    }
+
+    if (shopItem is BowStringUpgradeItem) {
+      _player.Weapon.AddedFirePower += ((BowStringUpgradeItem)shopItem).FirePowerAddition;
+      return;
+    }
+
+    if (shopItem is MaxHealthUpgradeItem) {
+      _player.MaxHealth += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
+      _player.Health += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
+      return;
     }
   }
 }

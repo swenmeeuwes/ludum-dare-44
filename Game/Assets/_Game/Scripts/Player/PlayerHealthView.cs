@@ -21,6 +21,10 @@ public class PlayerHealthView : HealthView, IInitializable, IDisposable {
   }
 
   private void OnPlayerHealthChangedSignal(PlayerHealthChangedSignal signal) {
+    if (signal.OldHealth > signal.NewHealth) {
+      ShowDamageTaken();
+    }
+
     ShowHealth(signal.NewHealth);
   }
 

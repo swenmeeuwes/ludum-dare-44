@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Shop Item Context
   m_EditorClassIdentifier: 
   Config:
-  - {fileID: 11400000, guid: 0d75e48a5f6b54d429a6284e2d1c5ebf, type: 2}
+  - {fileID: 11400000, guid: d7dcf6de7bc81bb4b9291a93557b6063, type: 2}
   - {fileID: 11400000, guid: 0e439bcccdeacb54484c22dba30e27f1, type: 2}
   - {fileID: 11400000, guid: 07cc1358618594b49967e6484a232f8f, type: 2}
