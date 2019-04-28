@@ -50,6 +50,10 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     }
   }
 
+  public override void Cleanup() {
+    _enemyFactory.CleanAllEntities();
+  }
+
   private void Spawn() {
     var newSpawn = _level.GetRandomEnemyModel();
     var enemy = _enemyFactory.Create(newSpawn.Enemy);

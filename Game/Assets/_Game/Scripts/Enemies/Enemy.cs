@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -11,6 +12,7 @@ public abstract class Enemy : MonoBehaviour {
   protected Collider2D Collider;
   protected Rigidbody2D Rigidbody;
   protected Animator Animator;
+  protected SpriteRenderer SpriteRenderer;
 
   private bool _isDead;
   public bool IsDead {
@@ -36,6 +38,7 @@ public abstract class Enemy : MonoBehaviour {
     Collider = GetComponent<Collider2D>();
     Rigidbody = GetComponent<Rigidbody2D>();
     Animator = GetComponent<Animator>();
+    SpriteRenderer = GetComponent<SpriteRenderer>();
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {
@@ -58,5 +61,10 @@ public abstract class Enemy : MonoBehaviour {
     _signalBus.Fire(new EnemyDiedSignal {
       Enemy = this
     });
+
+    DOTween.Sequence()
+      .PrependInterval(5f)
+      .Append(SpriteRenderer.DOFade(0, .45f))
+      .OnComplete(() => Destroy(gameObject));
   }
 }
