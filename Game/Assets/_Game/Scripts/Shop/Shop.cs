@@ -97,7 +97,9 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
       .OnComplete(() => {
         _view.SetActive(false);
 
-        _signalBus.Fire(new ShopClosedSignal { });
+        DOTween.Sequence()
+          .SetDelay(1f)
+          .OnComplete(() => _signalBus.Fire(new ShopClosedSignal { }));
       });
   }
 

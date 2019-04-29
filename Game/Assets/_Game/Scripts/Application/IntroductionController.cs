@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IntroductionController : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class IntroductionController : MonoBehaviour
   [SerializeField] private TMP_Text _welcomeText;
   [SerializeField] private CanvasGroup _introductionCanvas;
   [SerializeField] private CanvasGroup _tutorialCanvas;
+  [SerializeField] private Image _figure;
   [SerializeField] private string[] _introTexts;
+  [SerializeField] private string[] _welcomeBackTexts;
 
   //private void Start() {
   //  //StartCoroutine(Sequence());
@@ -37,13 +40,19 @@ public class IntroductionController : MonoBehaviour
 
     _introductionCanvas.DOFade(1, .45f);
 
-    foreach (var introText in _introTexts) {
+    var textsToShow = _welcomeBackTexts;
+    if (PlayerPrefs.GetInt(PlayerPrefKey.IntroSeen, 0) == 0) {
+      textsToShow = _introTexts;
+      PlayerPrefs.SetInt(PlayerPrefKey.IntroSeen, 1);
+    }
+
+    foreach (var introText in textsToShow) {
       yield return new WaitForSeconds(.45f);
 
       _welcomeText.text = introText;
       _welcomeText.DOFade(1f, .65f);
 
-      yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(1f + .08f * introText.Length);
 
       _welcomeText.DOFade(0, .85f);
 
@@ -51,6 +60,10 @@ public class IntroductionController : MonoBehaviour
     }
 
     if (PlayerPrefs.GetInt(PlayerPrefKey.TutorialSeen, 0) == 0) {
+      _figure.DOFade(0, .45f);
+
+      yield return new WaitForSeconds(1f);
+
       _tutorialCanvas.DOFade(1, .45f);
 
       yield return new WaitForSeconds(6f);

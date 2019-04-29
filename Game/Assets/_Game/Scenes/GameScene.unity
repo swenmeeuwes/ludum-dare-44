@@ -2609,7 +2609,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: -800, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &943661596
 MonoBehaviour:
@@ -2667,17 +2667,17 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -5432,9 +5432,13 @@ MonoBehaviour:
   _welcomeText: {fileID: 943661596}
   _introductionCanvas: {fileID: 1039241400}
   _tutorialCanvas: {fileID: 1993127399}
+  _figure: {fileID: 2114810029}
   _introTexts:
-  - Welcome mere mortal
-  - To my carnaval
+  - Welcome to my circus mortal
+  - You have the pleasure of being one of our main entainers
+  - For all of eternity
+  - Or how ever long you'll survive...
+  _welcomeBackTexts: []
 --- !u!1 &1982364555
 GameObject:
   m_ObjectHideFlags: 0
@@ -5894,7 +5898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponContext: {fileID: 11400000, guid: 36dc0c291a04dca44adb7f842cddea05, type: 2}
   _enemyContext: {fileID: 11400000, guid: 9cc2dcd7bf1b7074ab297d680714f90d, type: 2}
-  _levelContext: {fileID: 11400000, guid: abed86e2da0993f428f35b8c5344c3c2, type: 2}
+  _levelContext: {fileID: 11400000, guid: b36f65b850fdad4419729c46caff40a8, type: 2}
   _shopItemContext: {fileID: 11400000, guid: 0d0009d36a5f36e4382ac29838c06ddd, type: 2}
 --- !u!1 &2114810026
 GameObject:
