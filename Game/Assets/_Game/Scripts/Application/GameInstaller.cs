@@ -61,6 +61,12 @@ public class GameInstaller : MonoInstaller {
     Container.Bind<SpikeyBall>().FromInstance(_prefabContext.SpikeyBall).AsTransient();
     Container.Bind<FallingObstaclesSpawnPoints>().FromComponentInNewPrefab(_prefabContext.FallingObstaclesSpawnPoints).AsTransient();
 
+    // Score
+    Container.BindInterfacesAndSelfTo<ScoreController>().AsSingle();
+
+    Container.DeclareSignal<AddScoreSignal>().OptionalSubscriber();
+    Container.DeclareSignal<ScoreChangedSignal>().OptionalSubscriber();
+
     // Execution Order
     Container.BindExecutionOrder<LevelController>(5); // Before GameController
     Container.BindExecutionOrder<GameController>(10);

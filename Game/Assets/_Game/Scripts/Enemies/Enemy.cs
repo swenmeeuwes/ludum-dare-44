@@ -8,6 +8,7 @@ using Zenject;
 public abstract class Enemy : MonoBehaviour {
   [SerializeField] protected float MovementSpeed;
   [SerializeField] private int _initialDamage;
+  [SerializeField] private int _rewardScore = 10;
 
   protected Collider2D Collider;
   protected Rigidbody2D Rigidbody;
@@ -24,6 +25,8 @@ public abstract class Enemy : MonoBehaviour {
       }
     }
   }
+
+  public int RewardScore { get => _rewardScore; }
 
   public int Damage { get => _initialDamage; }
 

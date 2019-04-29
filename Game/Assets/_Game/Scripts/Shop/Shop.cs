@@ -118,9 +118,9 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   }
 
   private void ProcessBoughtShopItem(ShopItem shopItem) {
-    // Breaking the SOLID L ;c
+    // Breaking the SOLID L ;c -> todo: visitor time?
     if (shopItem is ScoreItem) {
-      // todo: add score
+      _signalBus.Fire(new AddScoreSignal { Amount = ((ScoreItem)shopItem).ScoreAmount });
       return;
     }
 
