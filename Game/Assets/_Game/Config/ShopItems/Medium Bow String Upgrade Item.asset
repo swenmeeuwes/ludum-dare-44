@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Medium Bow String Upgrade Item
   m_EditorClassIdentifier: 
   Name: Enhanced Bowstring
-  Sprite: {fileID: 21300000, guid: bf224d4f55cf6dd47a67e0b55186c44b, type: 3}
+  Sprite: {fileID: 21300000, guid: 2149611591c18cb4baec77aa08c529bc, type: 3}
   Cost: 10
   OnlyAvailableOnce: 1
   FirePowerAddition: 3
