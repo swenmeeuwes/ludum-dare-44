@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour {
       _queueJump = true;
     }
 
-    if (QueueStopMoving && _groundCheck.IsColliding) {
+    if (QueueStopMoving && _groundCheck.IsColliding && _rigidbody.velocity.magnitude < .01f) {
       QueueStopMoving = false;
       CanMove = false;
     }
