@@ -19,11 +19,11 @@ public class IntroductionController : MonoBehaviour
   public IPromise PlayIntro() {
     var promise = new Promise();
 
-    //StartCoroutine(Sequence(promise));
+    StartCoroutine(Sequence(promise));
 
     // For testing
-    FinishSequence(promise);
-    promise.Then(() => { _curtainAnimator.speed = 1; }); // reset speed
+    //FinishSequence(promise);
+    //promise.Then(() => { _curtainAnimator.speed = 1; }); // reset speed
 
     return promise;
   }

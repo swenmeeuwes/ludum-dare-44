@@ -56,6 +56,11 @@ public class GameInstaller : MonoInstaller {
     Container.DeclareSignal<ShopItemBoughtSignal>().OptionalSubscriber();
     Container.DeclareSignal<ShopClosedSignal>().OptionalSubscriber();
 
+    // Obstacles
+    Container.BindInterfacesAndSelfTo<FallingObstacleManager>().AsSingle();
+    Container.Bind<SpikeyBall>().FromInstance(_prefabContext.SpikeyBall).AsTransient();
+    Container.Bind<FallingObstaclesSpawnPoints>().FromComponentInNewPrefab(_prefabContext.FallingObstaclesSpawnPoints).AsTransient();
+
     // Execution Order
     Container.BindExecutionOrder<LevelController>(5); // Before GameController
     Container.BindExecutionOrder<GameController>(10);

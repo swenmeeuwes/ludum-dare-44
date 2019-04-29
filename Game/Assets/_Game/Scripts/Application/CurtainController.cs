@@ -137,7 +137,7 @@ public class CurtainController : MonoBehaviour {
 
     _curtainAnimator.SetTrigger("Open");
 
-    yield return new WaitForSeconds(1f);
+    yield return new WaitForSeconds(1.5f);
 
     promise.Resolve();
   }

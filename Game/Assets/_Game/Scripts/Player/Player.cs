@@ -108,7 +108,7 @@ public class Player : MonoBehaviour {
         var knockBackDirection = -(collider.transform.position - transform.position).normalized;
         _rigidbody.AddForce(knockBackDirection * _knockbackAmount, ForceMode2D.Impulse);
 
-        Debug.LogFormat("Player was hit for {0} damage!", enemy.Damage);
+        Debug.LogFormat("Player was hit for {0} damage by an enemy!", enemy.Damage);
       }
     }
   }
@@ -116,7 +116,13 @@ public class Player : MonoBehaviour {
   private void OnCollisionEnter2D(Collision2D collision) {
     var obstacle = collision.gameObject.GetComponent<Obstacle>();
     if (obstacle != null) {
-      Debug.Log("Player hit an obstacle!");
+      _timeSinceLastHit = Time.time;
+      Health -= obstacle.Damage;
+
+      var knockBackDirection = -(collision.transform.position - transform.position).normalized;
+      _rigidbody.AddForce(knockBackDirection * _knockbackAmount, ForceMode2D.Impulse);
+
+      Debug.LogFormat("Player was hit for {0} damage by an obstacle!", obstacle.Damage);
     }
   }
 

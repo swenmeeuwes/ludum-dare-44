@@ -14,6 +14,7 @@ public class ShopItemView : MonoBehaviour
   [SerializeField] private HealthView _costView;
   [SerializeField] private Button _buyButton;
   [SerializeField] private GameObject _soldBanner;
+  [SerializeField] private Transform _itemInfoContainer;
 
   private SignalBus _signalBus;
 
@@ -47,6 +48,17 @@ public class ShopItemView : MonoBehaviour
 
   private void Awake() {
     _soldBanner.SetActive(false);
+
+    var buyButtonCanvasGroup = _buyButton.GetComponent<CanvasGroup>();
+    var endPosition = _itemInfoContainer.position;
+
+    buyButtonCanvasGroup.DOFade(0, 0);
+    //_itemInfoContainer.DOMoveY(endPosition.y + Screen.height, 0);
+
+    DOTween.Sequence()
+      //.Append(_itemInfoContainer.DOMoveY(endPosition.y, 1.5f))
+      .SetDelay(.55f)
+      .Append(buyButtonCanvasGroup.DOFade(1, .45f));
   }
 
   public void HandleBuyButton() {

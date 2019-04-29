@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using DG.Tweening;
 
 public class Shop : MonoBehaviour, IInitializable, IDisposable {
   [SerializeField] private GameObject _view;
@@ -22,6 +23,8 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
 
   private List<ShopItem> _availableShopItems;
 
+  private Vector3 _originalViewPosition;
+
   [Inject]
   private void Construct(DiContainer container, SignalBus signalBus, ShopItemContext shopItemContext, ShopItemView shopItemView, Player player) {
     _container = container;
@@ -37,12 +40,15 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
 
   public void Initialize() {
     _availableShopItems = _shopItemContext.Config.ToList();
+    _originalViewPosition = _view.transform.position;
 
     _signalBus.Subscribe<ShopItemBoughtSignal>(OnShopItemBought);
+    _signalBus.Subscribe<PlayerHealthChangedSignal>(OnPlayerHealthChanged);
   }
 
   public void Dispose() {
     _signalBus.TryUnsubscribe<ShopItemBoughtSignal>(OnShopItemBought);
+    _signalBus.TryUnsubscribe<PlayerHealthChangedSignal>(OnPlayerHealthChanged);
   }
 
   public void HandleCloseButton() {
@@ -50,13 +56,16 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   }
 
   public void ShowRandomItems(int amount = 3) {
-    _view.SetActive(true);
+    _view.transform.position = _originalViewPosition + new Vector3(0, Screen.height, 0);
 
     // Clean up previous
     foreach (var shopItemView in _shopItemViews) {
       GameObject.Destroy(shopItemView.gameObject);
     }
     _shopItemViews.Clear();
+
+    _view.SetActive(true);
+    _view.transform.DOMoveY(_originalViewPosition.y, .85f);
 
     // Fetch random items
     var shopItems = _availableShopItems.ToList(); // ToList -> to clone the list (since we don't want to remove the shop items from available shop item list)
@@ -83,16 +92,16 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
   }
 
   public void Close() {
-    _view.SetActive(false);
+    _view.transform
+      .DOMoveY((_originalViewPosition + new Vector3(0, Screen.height, 0)).y, .85f)
+      .OnComplete(() => {
+        _view.SetActive(false);
 
-    _signalBus.Fire(new ShopClosedSignal { });
+        _signalBus.Fire(new ShopClosedSignal { });
+      });
   }
 
   private void OnShopItemBought(ShopItemBoughtSignal signal) {
-    foreach (var shopItemView in _shopItemViews) {
-      shopItemView.CanBuy = _player.Health > shopItemView.ShopItem.Cost; // Don't allow buying when player doesn't have enough health
-    }
-
     var boughtItem = signal.ShopItem;
     _boughtShopItems.Add(boughtItem);
     if (boughtItem.OnlyAvailableOnce) {
@@ -100,6 +109,12 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
     }
 
     ProcessBoughtShopItem(boughtItem);
+  }
+
+  private void OnPlayerHealthChanged(PlayerHealthChangedSignal signal) {
+    foreach (var shopItemView in _shopItemViews) {
+      shopItemView.CanBuy = signal.NewHealth > shopItemView.ShopItem.Cost; // Don't allow buying when player doesn't have enough health
+    }
   }
 
   private void ProcessBoughtShopItem(ShopItem shopItem) {
@@ -116,7 +131,7 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
 
     if (shopItem is MaxHealthUpgradeItem) {
       _player.MaxHealth += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
-      _player.Health += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
+      _player.Health += ((MaxHealthUpgradeItem)shopItem).RestoreHealthAmount;
       return;
     }
 

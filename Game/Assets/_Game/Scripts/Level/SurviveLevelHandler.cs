@@ -8,17 +8,20 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
   private SignalBus _signalBus;
   private EnemyFactory _enemyFactory;
   private FlyingEnemySpawnPoints _flyingEnemySpawnPoints;
+  private FallingObstacleManager _fallingObstacleManager;
 
   private SurviveLevel _level;
-  private float _lastSpawnTime;
+  private float _lastEnemySpawnTime;
+  private float _lastObstacleSpawnTime;
 
   private SurviveLevel.EnemyModel _lastSpawned;
 
   [Inject]
-  private void Construct(SignalBus signalBus, EnemyFactory enemyFactory, FlyingEnemySpawnPoints flyingEnemySpawnPoints) {
+  private void Construct(SignalBus signalBus, EnemyFactory enemyFactory, FlyingEnemySpawnPoints flyingEnemySpawnPoints, FallingObstacleManager fallingObstacleManager) {
     _signalBus = signalBus;
     _enemyFactory = enemyFactory;
     _flyingEnemySpawnPoints = flyingEnemySpawnPoints;
+    _fallingObstacleManager = fallingObstacleManager;
   }
 
   public void Initialize() {
@@ -33,14 +36,25 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     _level = level as SurviveLevel;
     _level.InitializeLogging();
 
-    _lastSpawnTime = 0;
+    _lastEnemySpawnTime = 0;
+
+    if (_level.WithFallingObstacles) {
+      _lastObstacleSpawnTime = Time.time + _level.FallingObstacleOffset;
+    }
 
     Spawn();
   }
 
   public override void Tick() {
-    if (Time.time -_lastSpawnTime > _lastSpawned.SpawnCooldownAfterSpawnedInSeconds && !_level.AllEnemiesAreSpawned) {
+    // Enemy spawning
+    if (Time.time - _lastEnemySpawnTime > _lastSpawned.SpawnCooldownAfterSpawnedInSeconds && !_level.AllEnemiesAreSpawned) {
       Spawn();
+    }
+    
+    // Obstacle spawning - only spawn if enemies are still spawning
+    if (Time.time - _lastObstacleSpawnTime > _level.FallingObstacleInterval && !_level.AllEnemiesAreSpawned) {
+      _fallingObstacleManager.QueueSpawnAtRandomX();
+      _lastObstacleSpawnTime = Time.time;
     }
 
     if (_level.IsFinished) {
@@ -64,7 +78,7 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
 
     _level.LogSpawn(newSpawn.Enemy);
     _lastSpawned = newSpawn;
-    _lastSpawnTime = Time.time;
+    _lastEnemySpawnTime = Time.time;
   }
 
   private void OnEnemyDiedSignal(EnemyDiedSignal signal) {

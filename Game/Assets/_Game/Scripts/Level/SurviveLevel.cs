@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Survive Level", menuName = "Levels /Survive Level")]
+[CreateAssetMenu(fileName = "Survive Level", menuName = "Levels/Survive Level")]
 public class SurviveLevel : Level {
   public EnemyModel[] Enemies;
+  public bool WithFallingObstacles;
+  public float FallingObstacleOffset; // in seconds
+  public float FallingObstacleInterval; // in seconds
 
   [HideInInspector] public Dictionary<Enemy, int> SpawnedEnemies;
   [HideInInspector] public Dictionary<Enemy, int> KilledEnemies;

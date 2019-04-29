@@ -25,3 +25,5 @@ MonoBehaviour:
     type: 3}
   SpikeyBall: {fileID: 1447881107591558607, guid: e6507003144c02440991de9792e47dd9,
     type: 3}
+  AlertArrowPrefab: {fileID: 867925023527336192, guid: ba4fb8b6d535e5e4a9cd039e3fd7809d,
+    type: 3}
