@@ -7,14 +7,30 @@ using Zenject;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class GameOverView : MonoBehaviour {
+  [SerializeField] private TMP_Text _headerTextField;
   [SerializeField] private TMP_Text _levelReachTextField;
   [SerializeField] private TMP_Text _scoreTextField;
   [SerializeField] private TMP_Text _highScoreTextField;
   [SerializeField] private TMP_Text _newHighScoreTextField;
   [SerializeField] private CanvasGroup _retryButton;
 
+  [SerializeField] private string _gameOverText;
+  [SerializeField] private string _gameFinishedText;
+
   [Inject] private ScoreController _scoreController;
   [Inject] private LevelController _levelController;
+
+  private bool _finishedGame;
+  public bool FinishedGame {
+    get => _finishedGame;
+    set {
+      _finishedGame = value;
+
+      if (_headerTextField != null) {
+        _headerTextField.text = value ? _gameFinishedText : _gameOverText;
+      }
+    }
+  }
 
   public CanvasGroup CanvasGroup { get; set; }
 

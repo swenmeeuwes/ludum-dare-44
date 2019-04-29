@@ -19,6 +19,15 @@ public class CurtainController : MonoBehaviour {
     _gameOverView.gameObject.SetActive(false);
   }
 
+  public IPromise ShowFinshedGame() {
+    var promise = new Promise();
+
+    _gameOverView.FinishedGame = true;
+    StartCoroutine(ShowGameOverSequence(promise));
+
+    return promise;
+  }
+  
   public IPromise ShowGameOver(string gameOverText) {
     var promise = new Promise();
 

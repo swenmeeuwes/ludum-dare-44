@@ -56,12 +56,14 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
         _platformManager.SetAmountOfEnabledPlatforms(_level.AvailablePlatforms);
       });
 
-    SpawnEnemy();
+    if (_level.Enemies.Length > 0) {
+      SpawnEnemy();
+    }
   }
 
   public override void Tick() {
     // Enemy spawning
-    if (Time.time - _lastEnemySpawnTime > _lastSpawned.SpawnCooldownAfterSpawnedInSeconds && !_level.AllEnemiesAreSpawned) {
+    if (_lastSpawned != null && Time.time - _lastEnemySpawnTime > _lastSpawned.SpawnCooldownAfterSpawnedInSeconds && !_level.AllEnemiesAreSpawned) {
       SpawnEnemy();
     }
     
@@ -76,16 +78,24 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
       SpawnAlly();
     } else if (Time.time - _lastAllySpawnTime > _level.AllySpawnInterval && _level.AllEnemiesAreSpawned && _level.AlliesToSpawnLeft > 0) {
       // If all enemies were spawned, spawn all allies at once
+
+      // Spawn first one directly to prevent the level from being finished
+      SpawnAlly();
+
       var allySpawnSequence = DOTween.Sequence();
-      for (var i = 0; i < _level.AlliesToSpawnLeft; i++) {
+      for (var i = 1; i < _level.AlliesToSpawnLeft; i++) { // we start at 1 since we've already spawned an enemy
         Debug.Log("Allies to spawn left: " + _level.AlliesToSpawnLeft);
         allySpawnSequence
-          .SetDelay(.95f)
-          .AppendCallback(() => {
-            var ally = _flyingHeartFactory.Create();
-            _level.LogAllySpawn(ally);
-            // Dont set `_lastAllySpawnTime`
-          });
+          .Append(
+            DOTween.Sequence()
+            .SetDelay(i * .35f)
+            .AppendCallback(() => {
+              SpawnAlly();
+              //var ally = _flyingHeartFactory.Create();
+              //_level.LogAllySpawn(ally);
+              //// Dont set `_lastAllySpawnTime`
+            })
+          );
       }
 
       _level.Allies = 0; // to prevent further spawns

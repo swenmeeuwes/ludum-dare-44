@@ -42,6 +42,7 @@ public class GameInstaller : MonoInstaller {
 
     Container.DeclareSignal<StartLevelSignal>().OptionalSubscriber();
     Container.DeclareSignal<LevelFinishedSignal>().OptionalSubscriber();
+    Container.DeclareSignal<AllLevelsCompletedSignal>().OptionalSubscriber();
 
     // Health view
     Container.Bind<HeartView>().FromInstance(_prefabContext.HeartView).AsTransient();

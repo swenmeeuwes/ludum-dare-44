@@ -15,4 +15,5 @@ MonoBehaviour:
   Name: Pile of valuables
   Sprite: {fileID: 21300000, guid: 010c7a662351d3b47847404563845946, type: 3}
   Cost: 4
-  ScoreAmount: 40
+  OnlyAvailableOnce: 0
+  ScoreAmount: 350

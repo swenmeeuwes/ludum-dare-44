@@ -15,4 +15,5 @@ MonoBehaviour:
   Name: Small pile of coins
   Sprite: {fileID: 21300000, guid: a083ab3de3994384d8c9ffebd21f5637, type: 3}
   Cost: 2
-  ScoreAmount: 10
+  OnlyAvailableOnce: 0
+  ScoreAmount: 150

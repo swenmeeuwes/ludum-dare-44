@@ -74,6 +74,12 @@ public class LevelController : IInitializable, IDisposable, ITickable {
 
     _player.CanMove = false;
 
+    if (CurrentLevelIndex + 1 >= _levelContext.Levels.Length) {
+      // The player finished the game!
+      _signalBus.Fire(new AllLevelsCompletedSignal { });
+      return;
+    }
+
     //var showShop = UnityEngine.Random.Range(0, 1) == 1;
     var showShop = (CurrentLevelIndex + 1) % 2 == 0; // Show shop on 3th, 5th, 7th... level
     if (showShop) {

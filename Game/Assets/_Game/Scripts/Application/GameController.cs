@@ -46,11 +46,13 @@ public class GameController : IInitializable, IDisposable {
   private void AddSubscriptions() {
     _signalBus.Subscribe<ShopItemBoughtSignal>(OnShopItemBought);
     _signalBus.Subscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
+    _signalBus.Subscribe<AllLevelsCompletedSignal>(OnAllLevelsCompleted);
   }
 
   private void TryRemoveSubscription() {
     _signalBus.TryUnsubscribe<ShopItemBoughtSignal>(OnShopItemBought);
     _signalBus.TryUnsubscribe<PlayerHealthChangedSignal>(OnPlayerHealthChangedSignal);
+    _signalBus.TryUnsubscribe<AllLevelsCompletedSignal>(OnAllLevelsCompleted);
   }
 
   private void OnShopItemBought(ShopItemBoughtSignal signal) {
@@ -62,6 +64,10 @@ public class GameController : IInitializable, IDisposable {
       _player.GetComponent<SpriteRenderer>().DOColor(new Color(.15f, 0, 0), .35f);
       State = GameState.GameOver;
     }
+  }
+
+  private void OnAllLevelsCompleted(AllLevelsCompletedSignal signal) {
+    State = GameState.Finished;
   }
 
   private void PlayIntro() {
@@ -95,6 +101,13 @@ public class GameController : IInitializable, IDisposable {
           _curtainController.ShowGameOver("Game Over");
         }
         break;
+      case GameState.Finished:
+        _player.CanMove = false;
+
+        if (oldState != GameState.Finished) {
+          _curtainController.ShowFinshedGame();
+        }
+        break;
       default:
         break;
     }
@@ -104,6 +117,7 @@ public class GameController : IInitializable, IDisposable {
     Intro,
     Playing,
     Paused,
-    GameOver
+    GameOver,
+    Finished
   }
 }
