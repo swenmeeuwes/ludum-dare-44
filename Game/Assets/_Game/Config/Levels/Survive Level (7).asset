@@ -20,7 +20,7 @@ MonoBehaviour:
   WithFallingObstacles: 1
   ConcurrentFallingObstacles: 5
   FallingObstacleOffset: 2
-  FallingObstacleInterval: 5
+  FallingObstacleInterval: 8
   PlatformActionDelay: 10
   AvailablePlatforms: 4
   Allies: 1
