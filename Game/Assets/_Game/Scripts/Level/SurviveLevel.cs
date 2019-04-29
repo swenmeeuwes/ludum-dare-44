@@ -14,6 +14,9 @@ public class SurviveLevel : Level {
   public float FallingObstacleOffset; // in seconds
   public float FallingObstacleInterval; // in seconds
 
+  public float PlatformActionDelay; // in seconds
+  public int AvailablePlatforms = 4;
+
   [HideInInspector] public Dictionary<Enemy, int> SpawnedEnemies;
   [HideInInspector] public Dictionary<Enemy, int> KilledEnemies;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
   private EnemyFactory _enemyFactory;
   private FlyingEnemySpawnPoints _flyingEnemySpawnPoints;
   private FallingObstacleManager _fallingObstacleManager;
+  private PlatformManager _platformManager;
 
   private SurviveLevel _level;
   private float _lastEnemySpawnTime;
@@ -17,11 +19,12 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
   private SurviveLevel.EnemyModel _lastSpawned;
 
   [Inject]
-  private void Construct(SignalBus signalBus, EnemyFactory enemyFactory, FlyingEnemySpawnPoints flyingEnemySpawnPoints, FallingObstacleManager fallingObstacleManager) {
+  private void Construct(SignalBus signalBus, EnemyFactory enemyFactory, FlyingEnemySpawnPoints flyingEnemySpawnPoints, FallingObstacleManager fallingObstacleManager, PlatformManager platformManager) {
     _signalBus = signalBus;
     _enemyFactory = enemyFactory;
     _flyingEnemySpawnPoints = flyingEnemySpawnPoints;
     _fallingObstacleManager = fallingObstacleManager;
+    _platformManager = platformManager;
   }
 
   public void Initialize() {
@@ -41,6 +44,12 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     if (_level.WithFallingObstacles) {
       _lastObstacleSpawnTime = Time.time + _level.FallingObstacleOffset;
     }
+
+    DOTween.Sequence()
+      .SetDelay(_level.PlatformActionDelay)
+      .OnComplete(() => {
+        _platformManager.SetAmountOfEnabledPlatforms(_level.AvailablePlatforms);
+      });
 
     Spawn();
   }

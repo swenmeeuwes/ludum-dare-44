@@ -27,9 +27,10 @@ public class FallingObstacleManager : IInitializable, IDisposable, ITickable {
   }
 
   public void Dispose() {
-    if (_root.gameObject) {
-      GameObject.Destroy(_root.gameObject);
-    }
+    // Throws exceptions and this manager will be always active for now... todo: fix null check
+    //if (_root.gameObject) {
+    //  GameObject.Destroy(_root.gameObject);
+    //}
   }
 
   public void Tick() {
