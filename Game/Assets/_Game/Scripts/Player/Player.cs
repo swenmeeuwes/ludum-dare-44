@@ -96,6 +96,13 @@ public class Player : MonoBehaviour {
         Weapon.Fire();
       }
     }
+
+    // Check if outside screen
+    var screenPoint = Camera.main.WorldToViewportPoint(transform.position);
+    var isBeneatCamera = screenPoint.y < -.05f;
+    if (isBeneatCamera) {
+      Health = 0;
+    }
   }
 
   private void OnTriggerEnter2D(Collider2D collider) {
