@@ -133,7 +133,7 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
 
     if (shopItem is MaxHealthUpgradeItem) {
       _player.MaxHealth += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
-      _player.Health += ((MaxHealthUpgradeItem)shopItem).RestoreHealthAmount;
+      //_player.Health += ((MaxHealthUpgradeItem)shopItem).RestoreHealthAmount;
       return;
     }
 
