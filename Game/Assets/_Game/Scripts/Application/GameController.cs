@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,6 +59,7 @@ public class GameController : IInitializable, IDisposable {
 
   private void OnPlayerHealthChangedSignal(PlayerHealthChangedSignal signal) {
     if (signal.NewHealth <= 0) {
+      _player.GetComponent<SpriteRenderer>().DOColor(new Color(.15f, 0, 0), .35f);
       State = GameState.GameOver;
     }
   }
