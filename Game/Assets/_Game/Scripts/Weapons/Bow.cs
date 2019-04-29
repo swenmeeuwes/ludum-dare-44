@@ -11,11 +11,16 @@ public class Bow : Weapon {
     _projectileFactory = projectileFactory;
   }
 
-  public override void Fire() {
-    base.Fire();
+  public override bool Fire() {
+    var canFire = base.Fire();
+    if (!canFire) {
+      return false;
+    }
 
     var arrow = _projectileFactory.Create();
     arrow.transform.position = (Vector2)_renderer.transform.position;// + Direction * .15f;
     arrow.Rigidbody.velocity = Direction * ChargedFirePower;
+
+    return true;
   }
 }

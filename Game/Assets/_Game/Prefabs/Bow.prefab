@@ -4936,6 +4936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationCompesation: 90
+  _minimumChargeToShoot: 0.2
   _timeInSecondsForFullCharge: 0.8
   _initialFirePower: 6
   _idleStage: {fileID: 21300000, guid: baba58502f23c9e45af51fa451943635, type: 3}
