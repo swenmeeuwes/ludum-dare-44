@@ -70,7 +70,7 @@ public class SurviveLevel : Level {
 
   public bool AllAlliesAreSpawned {
     get {
-      return SpawnedAllies == Allies;
+      return SpawnedAllies >= Allies; // todo fix >=, we need this now because we set Allies to 0 when spawning them all at once in SurviveLevelHandler...
     }
   }
 
