@@ -15,12 +15,12 @@ MonoBehaviour:
   Enemies:
   - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
     Amount: 2
-    SpawnCooldownAfterSpawnedInSeconds: 10
-  EnemySpawnOffset: 4
+    SpawnCooldownAfterSpawnedInSeconds: 5
+  EnemySpawnOffset: 5
   WithFallingObstacles: 1
-  ConcurrentFallingObstacles: 4
+  ConcurrentFallingObstacles: 3
   FallingObstacleOffset: 1
-  FallingObstacleInterval: 10
+  FallingObstacleInterval: 3
   PlatformActionDelay: 0
   AvailablePlatforms: 4
   Allies: 0
