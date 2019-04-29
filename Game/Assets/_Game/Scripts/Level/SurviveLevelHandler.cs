@@ -72,16 +72,23 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     }
 
     // Ally spawning
-    if (Time.time - _lastAllySpawnTime > _level.AllySpawnInterval && !_level.AllEnemiesAreSpawned) {
+    if (Time.time - _lastAllySpawnTime > _level.AllySpawnInterval && !_level.AllEnemiesAreSpawned && _level.AlliesToSpawnLeft > 0) {
       SpawnAlly();
-    } else if (Time.time - _lastAllySpawnTime > _level.AllySpawnInterval && _level.AllEnemiesAreSpawned) {
+    } else if (Time.time - _lastAllySpawnTime > _level.AllySpawnInterval && _level.AllEnemiesAreSpawned && _level.AlliesToSpawnLeft > 0) {
       // If all enemies were spawned, spawn all allies at once
       var allySpawnSequence = DOTween.Sequence();
       for (var i = 0; i < _level.AlliesToSpawnLeft; i++) {
+        Debug.Log("Allies to spawn left: " + _level.AlliesToSpawnLeft);
         allySpawnSequence
           .SetDelay(.95f)
-          .OnComplete(() => SpawnAlly());
+          .AppendCallback(() => {
+            var ally = _flyingHeartFactory.Create();
+            _level.LogAllySpawn(ally);
+            // Dont set `_lastAllySpawnTime`
+          });
       }
+
+      _level.Allies = 0; // to prevent further spawns
     }
 
     // Level lifecycle handling
