@@ -17,6 +17,14 @@ public class PlayerMovement : MonoBehaviour {
   private SpriteRenderer _renderer;
   private Animator _animator;
 
+  public float AddedMovementSpeed { get; set; }
+  public float AddedMaxMovementSpeed { get; set; }
+  public float AddedJumpForce { get; set; }
+
+  public float MovementSpeed { get => _movementSpeed + AddedMovementSpeed; }
+  public float MaxMovementSpeed { get => _maxMovementSpeed + AddedMaxMovementSpeed; }
+  public float JumpForce { get => _jumpForce + AddedJumpForce; }
+
   public bool CanMove { get; set; }
   public bool QueueStopMoving { get; set; }
 
@@ -56,13 +64,13 @@ public class PlayerMovement : MonoBehaviour {
 
     var input = new Vector2(Input.GetAxis(InputAxes.Horizontal), Input.GetAxis(InputAxes.Vertical));
 
-    //if (input.x * _rigidbody.velocity.x < _maxMovementSpeed) {
+    //if (input.x * _rigidbody.velocity.x < MaxMovementSpeed) {
     if (Mathf.Abs(input.x) > 0.1f) {
-      _rigidbody.AddForce(Vector2.right * input.x * _movementSpeed);
+      _rigidbody.AddForce(Vector2.right * input.x * MovementSpeed);
     }
 
-    if (Mathf.Abs(_rigidbody.velocity.x) > _maxMovementSpeed) {
-      _rigidbody.velocity = new Vector2(Mathf.Sign(_rigidbody.velocity.x) * _maxMovementSpeed, _rigidbody.velocity.y);
+    if (Mathf.Abs(_rigidbody.velocity.x) > MaxMovementSpeed) {
+      _rigidbody.velocity = new Vector2(Mathf.Sign(_rigidbody.velocity.x) * MaxMovementSpeed, _rigidbody.velocity.y);
     }
 
     if (Mathf.Abs(input.x) > 0.05f) {
@@ -72,8 +80,8 @@ public class PlayerMovement : MonoBehaviour {
     // Jumping
     if (_queueJump) {
       if (_groundCheck.IsColliding && Input.GetButton(InputAxes.Jump)) {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
-        //_rigidbody.AddForce(Vector2.up * _jumpForce);
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, JumpForce);
+        //_rigidbody.AddForce(Vector2.up * JumpForce);
 
         _jumpParticleSystem.Play();
       }

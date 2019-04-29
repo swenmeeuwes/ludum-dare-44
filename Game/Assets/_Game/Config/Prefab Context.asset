@@ -21,3 +21,7 @@ MonoBehaviour:
     type: 3}
   ShopItemView: {fileID: 6592801296115129569, guid: 534784eb52064d0459ccb4b15d27d90e,
     type: 3}
+  FallingObstaclesSpawnPoints: {fileID: 4735370821748864419, guid: 38b4e286e34be89459ca9f9b36929b9a,
+    type: 3}
+  SpikeyBall: {fileID: 1447881107591558607, guid: e6507003144c02440991de9792e47dd9,
+    type: 3}

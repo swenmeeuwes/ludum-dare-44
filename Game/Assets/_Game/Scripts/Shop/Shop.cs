@@ -119,5 +119,15 @@ public class Shop : MonoBehaviour, IInitializable, IDisposable {
       _player.Health += ((MaxHealthUpgradeItem)shopItem).MaxHealthAddition;
       return;
     }
+
+    if (shopItem is MovementSpeedUpgradeItem) {
+      _player.Movement.AddedMaxMovementSpeed += ((MovementSpeedUpgradeItem)shopItem).MovementSpeedAddition;
+      return;
+    }
+
+    if (shopItem is JumpForceUpgradeItem) {
+      _player.Movement.AddedJumpForce += ((JumpForceUpgradeItem)shopItem).JumpForceAddition;
+      return;
+    }
   }
 }

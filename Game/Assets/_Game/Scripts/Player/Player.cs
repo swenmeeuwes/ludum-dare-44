@@ -1,15 +1,23 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D))]
 public class Player : MonoBehaviour {
+  [SerializeField] private float _knockbackAmount = 2;
   [SerializeField] private int _initialMaxHealth = 10;
   [SerializeField] private float _secondsInvulnerableAfterHit = .65f;
 
+  private SpriteRenderer _spriteRenderer;
+  private Rigidbody2D _rigidbody;
+
   private PlayerMovement _movement;
   private SignalBus _signalBus;
+
+  public PlayerMovement Movement { get => _movement; }
 
   private Weapon _weapon;
   public Weapon Weapon {
@@ -55,6 +63,10 @@ public class Player : MonoBehaviour {
         OldHealth = oldHealth,
         NewHealth = value
       });
+
+      if (value < oldHealth) {
+        ShowDamageTaken();
+      }
     }
   }
 
@@ -67,6 +79,9 @@ public class Player : MonoBehaviour {
   }
 
   private void Start() {
+    _spriteRenderer = GetComponent<SpriteRenderer>();
+    _rigidbody = GetComponent<Rigidbody2D>();
+
     MaxHealth = _initialMaxHealth;
     Health = _initialMaxHealth;
   }
@@ -90,9 +105,26 @@ public class Player : MonoBehaviour {
         _timeSinceLastHit = Time.time;
         Health -= enemy.Damage;
 
+        var knockBackDirection = -(collider.transform.position - transform.position).normalized;
+        _rigidbody.AddForce(knockBackDirection * _knockbackAmount, ForceMode2D.Impulse);
+
         Debug.LogFormat("Player was hit for {0} damage!", enemy.Damage);
       }
     }
+  }
+
+  private void OnCollisionEnter2D(Collision2D collision) {
+    var obstacle = collision.gameObject.GetComponent<Obstacle>();
+    if (obstacle != null) {
+      Debug.Log("Player hit an obstacle!");
+    }
+  }
+
+  private void ShowDamageTaken() {
+    DOTween.Sequence()
+      .Append(_spriteRenderer.DOFade(.2f, .1f))
+      .Append(_spriteRenderer.DOFade(1, .1f))
+      .SetLoops(3);
   }
 
   private void DetachCurrentWeapon() {
