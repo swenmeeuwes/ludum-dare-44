@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 [RequireComponent(typeof(Camera))]
 public class GameCamera : MonoBehaviour
@@ -19,6 +20,8 @@ public class GameCamera : MonoBehaviour
   }
 
   public void Shake() {
-    _camera.DOShakePosition(.1f, strength: .1f).OnComplete(() => transform.position = _originalPosition);
+    if (_camera != null) {
+      _camera.DOShakePosition(.1f, strength: .1f).OnComplete(() => transform.position = _originalPosition);
+    }
   }
 }
