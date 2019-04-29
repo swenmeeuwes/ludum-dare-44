@@ -7,7 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Survive Level", menuName = "Levels/Survive Level")]
 public class SurviveLevel : Level {
   public EnemyModel[] Enemies;
+  public float EnemySpawnOffset; // in seconds
+
   public bool WithFallingObstacles;
+  public int ConcurrentFallingObstacles = 1;
   public float FallingObstacleOffset; // in seconds
   public float FallingObstacleInterval; // in seconds
 

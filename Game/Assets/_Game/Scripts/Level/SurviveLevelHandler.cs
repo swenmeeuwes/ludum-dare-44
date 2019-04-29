@@ -36,7 +36,7 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     _level = level as SurviveLevel;
     _level.InitializeLogging();
 
-    _lastEnemySpawnTime = 0;
+    _lastEnemySpawnTime = _level.EnemySpawnOffset;
 
     if (_level.WithFallingObstacles) {
       _lastObstacleSpawnTime = Time.time + _level.FallingObstacleOffset;
@@ -53,7 +53,7 @@ public class SurviveLevelHandler : LevelHandler, IInitializable, IDisposable {
     
     // Obstacle spawning - only spawn if enemies are still spawning
     if (Time.time - _lastObstacleSpawnTime > _level.FallingObstacleInterval && !_level.AllEnemiesAreSpawned) {
-      _fallingObstacleManager.QueueSpawnAtRandomX();
+      _fallingObstacleManager.QueueSpawnsAtRandomX(_level.ConcurrentFallingObstacles);
       _lastObstacleSpawnTime = Time.time;
     }
 

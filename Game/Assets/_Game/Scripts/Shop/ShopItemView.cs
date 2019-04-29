@@ -57,7 +57,7 @@ public class ShopItemView : MonoBehaviour
 
     DOTween.Sequence()
       //.Append(_itemInfoContainer.DOMoveY(endPosition.y, 1.5f))
-      .SetDelay(.55f)
+      .SetDelay(1f)
       .Append(buyButtonCanvasGroup.DOFade(1, .45f));
   }
 
@@ -67,7 +67,8 @@ public class ShopItemView : MonoBehaviour
     });
 
     _soldBanner.SetActive(true);
-    _soldBanner.transform.DOPunchScale(Vector3.one, .45f);
+    DOTween.Sequence()
+      .Append(_soldBanner.transform.DOPunchScale(Vector3.one, .45f));
 
     _buyButton.GetComponentInChildren<TMP_Text>().text = "Sold Out";
     _buyButton.interactable = false;

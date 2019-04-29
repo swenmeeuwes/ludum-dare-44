@@ -27,7 +27,9 @@ public class FallingObstacleManager : IInitializable, IDisposable, ITickable {
   }
 
   public void Dispose() {
-    GameObject.Destroy(_root.gameObject);
+    if (_root.gameObject) {
+      GameObject.Destroy(_root.gameObject);
+    }
   }
 
   public void Tick() {
@@ -40,15 +42,18 @@ public class FallingObstacleManager : IInitializable, IDisposable, ITickable {
     }
   }
 
-  public void QueueSpawnAtRandomX() {
-    var spawnPosition = _spawnPoints.GetRandomSpawnPosition();
-    // Show alert before spawning
-    _alertArrowManager.ShowAlertArrowAtWorldX(spawnPosition.x)
-      .Then(() => {
-        var spikeyBall = Create();
-        spikeyBall.transform.position = spawnPosition;
-      })
-      .Catch(ex => Debug.LogError(ex));
+  public void QueueSpawnsAtRandomX(int amount = 1) {
+    var spawnPositions = _spawnPoints.GetRandomSpawnPositions(amount);
+
+    foreach (var spawnPosition in spawnPositions) {
+      // Show alert before spawning
+      _alertArrowManager.ShowAlertArrowAtWorldX(spawnPosition.x)
+        .Then(() => {
+          var spikeyBall = Create();
+          spikeyBall.transform.position = spawnPosition;
+        })
+        .Catch(ex => Debug.LogError(ex));
+    }
   }
 
   private SpikeyBall Create() {

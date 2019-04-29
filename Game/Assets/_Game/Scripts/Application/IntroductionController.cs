@@ -10,6 +10,7 @@ public class IntroductionController : MonoBehaviour
   [SerializeField] private Animator _curtainAnimator;
   [SerializeField] private TMP_Text _welcomeText;
   [SerializeField] private CanvasGroup _introductionCanvas;
+  [SerializeField] private CanvasGroup _tutorialCanvas;
 
   //private void Start() {
   //  //StartCoroutine(Sequence());
@@ -31,6 +32,7 @@ public class IntroductionController : MonoBehaviour
   private IEnumerator Sequence(Promise promise) {
     _introductionCanvas.DOFade(0, 0);
     _welcomeText.DOFade(0, 0);
+    _tutorialCanvas.DOFade(0, 0);
 
     _introductionCanvas.DOFade(1, .45f);
 
@@ -38,8 +40,17 @@ public class IntroductionController : MonoBehaviour
 
     _welcomeText.DOFade(1f, .65f);
 
+    yield return new WaitForSeconds(2f);
+
+    _welcomeText.DOFade(0, .85f);
+
     yield return new WaitForSeconds(1f);
 
+    _tutorialCanvas.DOFade(1, .45f);
+
+    yield return new WaitForSeconds(8f);
+
+    _tutorialCanvas.DOFade(0, .35f);
     _introductionCanvas.DOFade(0, .85f);
 
     yield return new WaitForSeconds(1f);

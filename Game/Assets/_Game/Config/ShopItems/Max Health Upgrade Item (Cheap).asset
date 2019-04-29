@@ -17,3 +17,4 @@ MonoBehaviour:
   Cost: 10
   OnlyAvailableOnce: 1
   MaxHealthAddition: 1
+  RestoreHealthAmount: 4

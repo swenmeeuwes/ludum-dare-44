@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 4
+  _visualSpinTorque: 10
 --- !u!50 &1447881107591558603
 Rigidbody2D:
   serializedVersion: 4
