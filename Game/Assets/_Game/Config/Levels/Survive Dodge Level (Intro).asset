@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
-    Amount: 1
+    Amount: 2
     SpawnCooldownAfterSpawnedInSeconds: 10
   EnemySpawnOffset: 4
   WithFallingObstacles: 1
   ConcurrentFallingObstacles: 4
-  FallingObstacleOffset: 1
+  FallingObstacleOffset: 5
   FallingObstacleInterval: 1
   PlatformActionDelay: 0
   AvailablePlatforms: 4
