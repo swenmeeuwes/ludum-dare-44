@@ -17,10 +17,13 @@ public class FlyingHeart : MonoBehaviour {
   private Vector2 _moveDirection;
   private float _diePositionX;
 
-  public bool Alive { get; set; }
+  public bool Alive { get; private set; }
+  public int HealAmount { get => _healAmount; }
 
   private void Start() {
     _spriteRenderer = GetComponent<SpriteRenderer>();
+
+    Alive = true;
 
     var vectorToPlayer = _player.transform.position - transform.position;
     _moveDirection = new Vector2(vectorToPlayer.normalized.x, 0);
@@ -40,22 +43,24 @@ public class FlyingHeart : MonoBehaviour {
   }
 
   private void Update() {
-    if (transform.position.x > _diePositionX) {
-      Destroy(gameObject);
+    if (_moveDirection.x > 0) {
+      if (transform.position.x > _diePositionX) {
+        Destroy(gameObject);
+      }
+    } else {
+      if (transform.position.x < _diePositionX) {
+        Destroy(gameObject);
+      }
     }
 
-    transform.position += (Vector3)(_moveDirection * _moveDirection * Time.deltaTime);
+    transform.position += (Vector3)(_moveDirection * _movementSpeed * Time.deltaTime);
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {
-    var player = collision.transform.GetComponent<Player>();
-    if (player != null && Alive) {
-      player.Health += _healAmount;
-      Die();
-    }
+    
   }
 
-  private void Die() {
+  public void Die() {
     Alive = false;
 
     _dieParticleSytem.Play();

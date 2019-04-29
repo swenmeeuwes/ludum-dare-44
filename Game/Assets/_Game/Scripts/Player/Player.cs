@@ -57,11 +57,11 @@ public class Player : MonoBehaviour {
     get => _health;
     set {
       var oldHealth = _health;
-      _health = value;
+      _health = Mathf.Clamp(value, -1, MaxHealth);
 
       _signalBus.Fire(new PlayerHealthChangedSignal {
         OldHealth = oldHealth,
-        NewHealth = value
+        NewHealth = _health
       });
 
       if (value < oldHealth) {
@@ -117,6 +117,12 @@ public class Player : MonoBehaviour {
 
         Debug.LogFormat("Player was hit for {0} damage by an enemy!", enemy.Damage);
       }
+    }
+
+    var flyingHeart = collider.transform.GetComponent<FlyingHeart>();
+    if (flyingHeart != null && flyingHeart.Alive) {
+      Health += flyingHeart.HealAmount;
+      flyingHeart.Die();
     }
   }
 
