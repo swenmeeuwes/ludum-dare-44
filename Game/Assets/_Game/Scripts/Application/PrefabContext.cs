@@ -10,4 +10,6 @@ public class PrefabContext : ScriptableObject
   public ShopItemView ShopItemView;
   public FallingObstaclesSpawnPoints FallingObstaclesSpawnPoints;
   public SpikeyBall SpikeyBall;
+  public FlyingHeartSpawnPoints FlyingHeartSpawnPoints;
+  public FlyingHeart FlyingHeart;
 }

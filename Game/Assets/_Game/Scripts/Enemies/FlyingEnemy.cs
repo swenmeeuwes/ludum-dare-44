@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class FlyingEnemy : SeekingEnemy {
+  [Inject] private Player _player;
+
   private void Start() {
-    Target = GameObject.Find("Player").transform; // TEMP TEST
+    Target = _player.transform;
 
     Rigidbody.gravityScale = 0;
   }

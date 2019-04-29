@@ -46,11 +46,18 @@ public class IntroductionController : MonoBehaviour
 
     yield return new WaitForSeconds(1f);
 
-    _tutorialCanvas.DOFade(1, .45f);
+    if (PlayerPrefs.GetInt(PlayerPrefKey.TutorialSeen, 0) == 0) {
+      _tutorialCanvas.DOFade(1, .45f);
 
-    yield return new WaitForSeconds(8f);
+      yield return new WaitForSeconds(6f);
 
-    _tutorialCanvas.DOFade(0, .35f);
+      _tutorialCanvas.DOFade(0, .35f);
+
+      PlayerPrefs.SetInt(PlayerPrefKey.TutorialSeen, 1);
+    }
+
+    yield return new WaitForSeconds(.15f);
+
     _introductionCanvas.DOFade(0, .85f);
 
     yield return new WaitForSeconds(1f);

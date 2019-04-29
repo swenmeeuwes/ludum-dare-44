@@ -23,3 +23,8 @@ MonoBehaviour:
   FallingObstacleInterval: 2
   PlatformActionDelay: 1
   AvailablePlatforms: 2
+  Allies: 12
+  AllySpawnOffset: 2
+  AllySpawnInterval: 2
+  SpawnedAllies: 0
+  AliveAllies: []

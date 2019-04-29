@@ -51,7 +51,7 @@ public class GameInstaller : MonoInstaller {
 
     // Shop
     Container.Bind<ShopItemContext>().FromInstance(_shopItemContext).AsSingle();
-    Container.Bind<ShopItemView>().FromComponentInNewPrefab(_prefabContext.ShopItemView).AsTransient();
+    Container.Bind<ShopItemView>().FromInstance(_prefabContext.ShopItemView).AsTransient();
 
     Container.DeclareSignal<ShopItemBoughtSignal>().OptionalSubscriber();
     Container.DeclareSignal<ShopClosedSignal>().OptionalSubscriber();
@@ -66,6 +66,11 @@ public class GameInstaller : MonoInstaller {
 
     Container.DeclareSignal<AddScoreSignal>().OptionalSubscriber();
     Container.DeclareSignal<ScoreChangedSignal>().OptionalSubscriber();
+
+    // Ally
+    Container.Bind<FlyingHeart>().FromInstance(_prefabContext.FlyingHeart).AsTransient();
+    Container.Bind<FlyingHeartSpawnPoints>().FromComponentInNewPrefab(_prefabContext.FlyingHeartSpawnPoints).AsTransient();
+    Container.BindInterfacesAndSelfTo<FlyingHeartFactory>().AsSingle();
 
     // Execution Order
     Container.BindExecutionOrder<LevelController>(5); // Before GameController

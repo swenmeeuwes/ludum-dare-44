@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class CurtainController : MonoBehaviour {
   [SerializeField] private Animator _curtainAnimator;
   [SerializeField] private TMP_Text _text;
   [SerializeField] private CanvasGroup _curtainCanvas;
-  [SerializeField] private CanvasGroup _gameOverView;
+  [SerializeField] private GameOverView _gameOverView;
 
   private void Awake() {
     _curtainCanvas.DOFade(0, 0);
@@ -29,7 +30,9 @@ public class CurtainController : MonoBehaviour {
   private IEnumerator ShowGameOverSequence(Promise promise) {
     _curtainCanvas.DOFade(0, 0);
     _text.DOFade(0, 0);
-    _gameOverView.DOFade(0, 0);
+    _gameOverView.CanvasGroup.DOFade(0, 0);
+
+    _gameOverView.Hide();
 
     yield return new WaitForSeconds(.65f);
 
@@ -42,9 +45,11 @@ public class CurtainController : MonoBehaviour {
     yield return new WaitForSeconds(.35f);
 
     _gameOverView.gameObject.SetActive(true);
-    _gameOverView.DOFade(1f, .45f);
+    _gameOverView.CanvasGroup.DOFade(1f, .45f);
 
-    yield return new WaitForSeconds(1.65f);
+    yield return new WaitForSeconds(.25f);
+
+    _gameOverView.Show();
 
     promise.Resolve();
   }

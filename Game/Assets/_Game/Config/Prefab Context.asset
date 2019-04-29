@@ -25,5 +25,7 @@ MonoBehaviour:
     type: 3}
   SpikeyBall: {fileID: 1447881107591558607, guid: e6507003144c02440991de9792e47dd9,
     type: 3}
-  AlertArrowPrefab: {fileID: 867925023527336192, guid: ba4fb8b6d535e5e4a9cd039e3fd7809d,
+  FlyingHeartSpawnPoints: {fileID: 5986284214671123672, guid: 47f2cb8477d89f44e81890a2bc894913,
+    type: 3}
+  FlyingHeart: {fileID: 8637656125633532363, guid: fb8ddf41d3bb3cc43b296fdfe7fd0aee,
     type: 3}

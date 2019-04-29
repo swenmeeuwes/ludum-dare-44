@@ -17,8 +17,15 @@ public class SurviveLevel : Level {
   public float PlatformActionDelay; // in seconds
   public int AvailablePlatforms = 4;
 
+  public int Allies = 0;
+  public float AllySpawnOffset = 0;
+  public float AllySpawnInterval = 0;
+
+
   [HideInInspector] public Dictionary<Enemy, int> SpawnedEnemies;
   [HideInInspector] public Dictionary<Enemy, int> KilledEnemies;
+  [HideInInspector] public int SpawnedAllies = 0;
+  [HideInInspector] public List<FlyingHeart> AliveAllies = new List<FlyingHeart>();
 
   public void InitializeLogging() {
     SpawnedEnemies = new Dictionary<Enemy, int>();
@@ -30,7 +37,7 @@ public class SurviveLevel : Level {
     }
   }
 
-  public void LogSpawn(Enemy enemy) {
+  public void LogEnemySpawn(Enemy enemy) {
     var key = SpawnedEnemies.First(s => enemy.GetType() == s.Key.GetType()).Key;
     SpawnedEnemies[key]++;
   }
@@ -40,17 +47,36 @@ public class SurviveLevel : Level {
     KilledEnemies[key]++;
   }
 
+  public void LogAllySpawn(FlyingHeart ally) {
+    SpawnedAllies++;
+    AliveAllies.Add(ally);
+  }
+
+  public int AlliesToSpawnLeft { get => Allies - SpawnedAllies; }
+
   public bool IsFinished {
     get {
       var allEnemiesAreKilled = KilledEnemies.All(k => Enemies.First(e => e.Enemy.GetType() == k.Key.GetType()).Amount == k.Value);
 
-      return AllEnemiesAreSpawned && allEnemiesAreKilled;
+      return AllEnemiesAreSpawned && allEnemiesAreKilled && AllAlliesAreSpawned && AllAlliesAreDead;
     }
   }
 
   public bool AllEnemiesAreSpawned {
     get {
       return SpawnedEnemies.All(s => Enemies.First(e => e.Enemy.GetType() == s.Key.GetType()).Amount == s.Value);
+    }
+  }
+
+  public bool AllAlliesAreSpawned {
+    get {
+      return SpawnedAllies == Allies;
+    }
+  }
+
+  public bool AllAlliesAreDead {
+    get {
+      return AliveAllies.All(a => a == null);
     }
   }
 
