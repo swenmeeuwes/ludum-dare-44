@@ -27,7 +27,7 @@ public class GameOverView : MonoBehaviour {
     _scoreTextField.DOFade(0, 0);
     _highScoreTextField.DOFade(0, 0);
     _newHighScoreTextField.DOFade(0, 0);
-    //_retryButton.DOFade(0, 0);
+    _retryButton.DOFade(0, 0);
   }
 
   public void Show() {
