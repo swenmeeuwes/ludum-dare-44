@@ -11,6 +11,7 @@ public class IntroductionController : MonoBehaviour
   [SerializeField] private TMP_Text _welcomeText;
   [SerializeField] private CanvasGroup _introductionCanvas;
   [SerializeField] private CanvasGroup _tutorialCanvas;
+  [SerializeField] private string[] _introTexts;
 
   //private void Start() {
   //  //StartCoroutine(Sequence());
@@ -36,15 +37,18 @@ public class IntroductionController : MonoBehaviour
 
     _introductionCanvas.DOFade(1, .45f);
 
-    yield return new WaitForSeconds(.45f);
+    foreach (var introText in _introTexts) {
+      yield return new WaitForSeconds(.45f);
 
-    _welcomeText.DOFade(1f, .65f);
+      _welcomeText.text = introText;
+      _welcomeText.DOFade(1f, .65f);
 
-    yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(2f);
 
-    _welcomeText.DOFade(0, .85f);
+      _welcomeText.DOFade(0, .85f);
 
-    yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(1f);
+    }
 
     if (PlayerPrefs.GetInt(PlayerPrefKey.TutorialSeen, 0) == 0) {
       _tutorialCanvas.DOFade(1, .45f);

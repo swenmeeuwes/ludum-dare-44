@@ -20,7 +20,7 @@ public class SpikeyBall : Obstacle {
   private void Start() {
     IsSpinningVisually = true;
 
-    _visualSpinTorque += Random.Range(-10f, 10f);
+    _visualSpinTorque += Random.Range(-100f, 100f);
   }
 
   private void Update() {

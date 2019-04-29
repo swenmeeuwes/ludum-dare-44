@@ -64,6 +64,9 @@ public class FlyingHeart : MonoBehaviour {
     Alive = false;
 
     _dieParticleSytem.Play();
-    _spriteRenderer.DOFade(0, .45f).SetDelay(1.05f - .45f).OnComplete(() => Destroy(gameObject));
+    DOTween.Sequence()
+      .Append(_spriteRenderer.DOFade(0, .15f))
+      .Append(_spriteRenderer.DOFade(0, 1.05f - .15f)) // let particle system finish
+      .OnComplete(() => Destroy(gameObject));
   }
 }

@@ -124,7 +124,7 @@ public class CurtainController : MonoBehaviour {
 
     _curtainAnimator.SetTrigger("Close");
 
-    yield return new WaitForSeconds(1f);
+    yield return new WaitForSeconds(3f);
 
     _curtainCanvas.DOFade(1, .35f);
 
