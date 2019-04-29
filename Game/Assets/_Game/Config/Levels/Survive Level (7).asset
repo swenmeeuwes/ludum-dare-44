@@ -18,9 +18,9 @@ MonoBehaviour:
     SpawnCooldownAfterSpawnedInSeconds: 2
   EnemySpawnOffset: 4
   WithFallingObstacles: 1
-  ConcurrentFallingObstacles: 4
-  FallingObstacleOffset: 10
-  FallingObstacleInterval: 20
+  ConcurrentFallingObstacles: 5
+  FallingObstacleOffset: 5
+  FallingObstacleInterval: 12
   PlatformActionDelay: 3
   AvailablePlatforms: 4
   Allies: 1

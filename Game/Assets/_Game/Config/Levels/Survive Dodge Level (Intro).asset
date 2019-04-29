@@ -19,8 +19,8 @@ MonoBehaviour:
   EnemySpawnOffset: 4
   WithFallingObstacles: 1
   ConcurrentFallingObstacles: 4
-  FallingObstacleOffset: 2
-  FallingObstacleInterval: 5
+  FallingObstacleOffset: 1
+  FallingObstacleInterval: 1
   PlatformActionDelay: 0
   AvailablePlatforms: 4
   Allies: 0
