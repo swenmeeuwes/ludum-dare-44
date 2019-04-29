@@ -51,9 +51,9 @@ public class ScoreView : MonoBehaviour, IInitializable, IDisposable {
 
   private void MoveScoreCounterTowardsScore(int targetScore) {
     var scoreDelta = _targetScore - _showingScore;
-    var scoreIncrement = Mathf.Ceil(scoreDelta * _incrementStep * Time.deltaTime);
+    var scoreIncrement = scoreDelta * _incrementStep * Time.deltaTime;
 
-    var newScore = Mathf.FloorToInt(_showingScore + scoreIncrement);
+    var newScore = Mathf.CeilToInt(_showingScore + scoreIncrement);
     var newScoreText = string.Format(_formatString, newScore);
     _scoreText.text = newScoreText;
 

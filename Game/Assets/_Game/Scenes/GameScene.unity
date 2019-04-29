@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 641288484}
-  _incrementDuration: 1
+  _incrementDuration: 2
   _numberAmount: 8
 --- !u!114 &240999206
 MonoBehaviour:
