@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dabb8b07e2868d4da5c95d79063a055, type: 3}
-  m_Name: Hermes Boots
+  m_Script: {fileID: 11500000, guid: f40503c39cc910743b517414a7a999f6, type: 3}
+  m_Name: Enhanced Boot Springs
   m_EditorClassIdentifier: 
-  Name: Hermes Boots
-  Sprite: {fileID: 21300000, guid: 35beaa4bdd89d4749ab0bf94f27f67a0, type: 3}
-  Cost: 9
+  Name: Enhanced Boot Springs
+  Sprite: {fileID: 21300000, guid: a9586b5856bba504788f750a67342674, type: 3}
+  Cost: 6
   OnlyAvailableOnce: 1
-  MovementSpeedAddition: 2
+  JumpForceAddition: 1

@@ -6029,7 +6029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponContext: {fileID: 11400000, guid: 36dc0c291a04dca44adb7f842cddea05, type: 2}
   _enemyContext: {fileID: 11400000, guid: 9cc2dcd7bf1b7074ab297d680714f90d, type: 2}
-  _levelContext: {fileID: 11400000, guid: b36f65b850fdad4419729c46caff40a8, type: 2}
+  _levelContext: {fileID: 11400000, guid: abed86e2da0993f428f35b8c5344c3c2, type: 2}
   _shopItemContext: {fileID: 11400000, guid: 0d0009d36a5f36e4382ac29838c06ddd, type: 2}
 --- !u!1 &2083057950
 GameObject:

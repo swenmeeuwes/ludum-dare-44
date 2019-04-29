@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Boot Springs
   Sprite: {fileID: 21300000, guid: a9586b5856bba504788f750a67342674, type: 3}
-  Cost: 6
+  Cost: 4
   OnlyAvailableOnce: 1
-  JumpForceAddition: 1
+  JumpForceAddition: 0.5

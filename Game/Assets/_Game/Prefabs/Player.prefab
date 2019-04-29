@@ -5131,9 +5131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fallMultiplier: 3.5
   _lowJumpMultiplier: 2
-  _jumpForce: 8
+  _jumpForce: 7
   _movementSpeed: 200
-  _maxMovementSpeed: 2
+  _maxMovementSpeed: 1
   _groundCheck: {fileID: 3596014103171587173}
   _jumpParticleSystem: {fileID: 4586224016492147120}
 --- !u!114 &3596014104026388180
