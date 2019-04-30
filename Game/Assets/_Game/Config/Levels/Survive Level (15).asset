@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7043ed2841c5c6a499466008bcbd6e18, type: 3}
-  m_Name: Survive Level (10)
+  m_Name: Survive Level (15)
   m_EditorClassIdentifier: 
   Enemies:
   - Enemy: {fileID: 7151057267332225678, guid: b62a61e40183d6e45af27ec9c28a1c54, type: 3}
-    Amount: 14
-    SpawnCooldownAfterSpawnedInSeconds: 3
-  EnemySpawnOffset: 4
+    Amount: 20
+    SpawnCooldownAfterSpawnedInSeconds: 1
+  EnemySpawnOffset: 1
   WithFallingObstacles: 1
-  ConcurrentFallingObstacles: 5
+  ConcurrentFallingObstacles: 1
   FallingObstacleOffset: 10
-  FallingObstacleInterval: 5
-  PlatformActionDelay: 10
+  FallingObstacleInterval: 1.5
+  PlatformActionDelay: 5
   AvailablePlatforms: 3
-  Allies: 0
-  AllySpawnOffset: 5
+  Allies: 1
+  AllySpawnOffset: 10
   AllySpawnInterval: 2
   SpawnedAllies: 0
   AliveAllies: []
